@@ -1,0 +1,1 @@
+Hello! This is an engine for creating games on the web. Currently we are in pre-alpha, but plan to quickly move into an alpha state very soon.

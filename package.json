@@ -1,0 +1,25 @@
+{
+  "name": "game-kiln",
+  "version": "0.0.1",
+  "description": "A 2d web game framework built on simplicity and scalability",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo 'This is not yet set up :P'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codymikol/game-kiln.git"
+  },
+  "keywords": [
+    "game-kiln",
+    "game",
+    "engine",
+    "2d"
+  ],
+  "author": "Cody Mikol",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codymikol/game-kiln/issues"
+  },
+  "homepage": "https://github.com/codymikol/game-kiln#readme"
+}
