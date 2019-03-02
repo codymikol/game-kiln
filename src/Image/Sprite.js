@@ -1,7 +1,7 @@
-import Entity from "../Entity/Entity";
-import Draw from "../Draw/Draw";
+import KEntity from "../Kiln/packages/KEntity/KEntity";
+import Draw from "../Kiln/packages/KDraw/KDraw";
 
-export default class Sprite extends Entity {
+export default class Sprite extends KEntity {
 
     constructor(src, x, y, h, w) {
         super();

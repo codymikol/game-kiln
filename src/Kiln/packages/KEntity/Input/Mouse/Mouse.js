@@ -1,4 +1,4 @@
-import ScreenManager from "../../Screen/ScreenManager";
+import ScreenManager from "../../../KScreen/ScreenManager";
 
 let instance = null;
 
