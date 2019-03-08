@@ -1,6 +1,6 @@
 {
   "name": "game-kiln",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A 2d web game framework built on simplicity and scalability",
   "main": "src/index.js",
   "scripts": {
@@ -11,6 +11,10 @@
     "type": "git",
     "url": "git+https://github.com/codymikol/game-kiln.git"
   },
+  "files": [
+    "/dist",
+    "/docs"
+  ],
   "keywords": [
     "game-kiln",
     "game",
