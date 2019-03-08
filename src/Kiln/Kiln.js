@@ -1,1 +1,0 @@
-//TODO: This should be the way to bootstrap a game :D
