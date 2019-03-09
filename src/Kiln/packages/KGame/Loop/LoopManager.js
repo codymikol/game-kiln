@@ -13,12 +13,13 @@ export default class LoopManager {
        this.lastFrameTimeMs = 0;
        this.screenManager = new ScreenManager(kiln, elem, initialScreen);
        this.ctx = this.screenManager.getCtx();
+       this.loop = this.loop.bind(this);
    }
 
    loop(timestamp) {
 
        if (timestamp < this.lastFrameTimeMs + (1000 / this.MAX_FPS)) {
-           requestAnimationFrame(this.loop.bind(this));
+           requestAnimationFrame(this.loop);
            return;
        }
 
@@ -28,13 +29,13 @@ export default class LoopManager {
        this.screenManager.tick(delta);
        this.ctx.clearRect(0, 0, this.screenManager.width, this.screenManager.height);
        this.screenManager.render();
-       requestAnimationFrame(this.loop.bind(this));
+       requestAnimationFrame(this.loop);
 
    }
 
    init() {
        this.initialized = true;
-       requestAnimationFrame(this.loop.bind(this))
+       requestAnimationFrame(this.loop)
    }
 
 }
