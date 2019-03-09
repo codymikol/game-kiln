@@ -7,7 +7,8 @@ module.exports = {
         KGame: './src/Kiln/packages/KGame/KGame.js',
         KScreen: './src/Kiln/packages/KScreen/KScreen.js',
         KEntity: './src/Kiln/packages/KEntity/KEntity.js',
-        KDraw: './src/Kiln/packages/KDraw/KDraw.js'
+        KDraw: './src/Kiln/packages/KDraw/KDraw.js',
+        KInput: './src/Kiln/packages/KInput/KInput.js'
     },
     output: {
         filename: '[name].bundle.js',
