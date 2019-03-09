@@ -1,7 +1,3 @@
-function randomIntFromInterval(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
 class SpinnyEmitter extends Kiln.Entity {
 
     constructor(x, y) {
@@ -50,6 +46,7 @@ class Spinny extends Kiln.Entity {
         this.wobbleRotation = 80;
         this.speed = .1;
         this.coolColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        this._keyboard = new Kiln.Input.Keyboard();
     }
 
     onCreate = () => {
@@ -68,6 +65,11 @@ class Spinny extends Kiln.Entity {
 
     onTick() {
 
+        if(this._keyboard.isDown('d')) this._startingX+=5;
+        if(this._keyboard.isDown('a')) this._startingX-=5;
+        if(this._keyboard.isDown('s')) this._startingY+=5;
+        if(this._keyboard.isDown('w')) this._startingY-=5;
+
         if (this.hovered) this.coolColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
         this.time++;
@@ -75,9 +77,9 @@ class Spinny extends Kiln.Entity {
         this.y = this._startingY + (this.speed * Math.sin(this.wobbleRotation * Math.PI / 180) * this.time);
     }
 
-    onAnyClick = () => {
+    onClick = () => {
         this.add(new SpinnyEmitter(this.x, this.y))
-    }
+    };
 
 
 
