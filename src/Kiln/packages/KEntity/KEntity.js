@@ -47,10 +47,10 @@ export default class KEntity {
             if (this.onAnyKeyDown) this.onAnyKeyDown(key);
         };
         this.interval = function (fn, interval) {
-            this._intervalList.push(setInterval(fn, interval));
+            this._intervalList.push(setInterval(fn.bind(this), interval));
         };
         this.timeout = function (fn, timeout) {
-            this._timeoutList.push(setTimeout(fn, timeout))
+            this._timeoutList.push(setTimeout(fn.bind(this), timeout))
         };
         this.add = function (child) {
             //TODO: Children are linked before the root is added to the screen :(

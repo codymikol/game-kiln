@@ -14,17 +14,17 @@ class SpinnyEmitter extends Kiln.Entity {
 
         this.interval(function () {
             this.add(new Spinny(this.x, this.y));
-        }.bind(this), 250);
+        }, 250);
 
         this.interval(function () {
             this.x += this.xVel;
             if (this.x < 100 || this.x > 1000) this.xVel = this.xVel * -1;
-        }.bind(this));
+        });
 
         this.interval(function () {
             this.y += this.yVel;
             if (this.y < 100 || this.y > 1000) this.yVel = this.yVel * -1;
-        }.bind(this));
+        });
 
     };
 
@@ -54,7 +54,7 @@ class Spinny extends Kiln.Entity {
         this.interval(function () {
             if (this.wobbleRotation === 361) this.wobbleRotation = 0;
             this.wobbleRotation++;
-        }.bind(this), 20);
+        }, 20);
 
     };
 
