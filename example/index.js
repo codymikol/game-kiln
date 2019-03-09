@@ -1,11 +1,13 @@
-function randomIntFromInterval(min,max) {
-    return Math.floor(Math.random()*(max-min+1)+min);
+function randomIntFromInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 class SpinnyEmitter extends Kiln.Entity {
 
     constructor(x, y) {
-        super(x,y);
+        super(x, y);
+        this.height = 50;
+        this.width = 50;
         this.xVel = 5;
         this.yVel = 5;
         this.brush = new Kiln.Draw('pong');
@@ -20,18 +22,18 @@ class SpinnyEmitter extends Kiln.Entity {
 
         this.interval(function () {
             this.x += this.xVel;
-            if(this.x < 100 || this.x > 1000) this.xVel = this.xVel * -1;
+            if (this.x < 100 || this.x > 1000) this.xVel = this.xVel * -1;
         }.bind(this));
 
         this.interval(function () {
             this.y += this.yVel;
-            if(this.y < 100 || this.y > 1000) this.yVel = this.yVel * -1;
+            if (this.y < 100 || this.y > 1000) this.yVel = this.yVel * -1;
         }.bind(this));
 
     };
 
     render() {
-        this.brush.square(this.x, this.y, 25, 25, 'red');
+        this.brush.square(this.x, this.y, this.width, this.height, 'red');
     }
 
 }
@@ -40,32 +42,44 @@ class Spinny extends Kiln.Entity {
 
     constructor(x, y) {
         super(x, y);
+        this.height = 25;
+        this.width = 145;
         this.time = 0;
         this._startingX = x;
         this._startingY = y;
         this.wobbleRotation = 80;
         this.speed = .1;
+        this.coolColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
     }
 
     onCreate = () => {
 
         this.interval(function () {
-            if(this.wobbleRotation === 361) this.wobbleRotation = 0;
-            this.wobbleRotation ++;
+            if (this.wobbleRotation === 361) this.wobbleRotation = 0;
+            this.wobbleRotation++;
         }.bind(this), 20);
 
     };
 
     render() {
         let brush = new Kiln.Draw('pong');
-        brush.square(this.x, this.y, 25, 25, 'green');
+        brush.square(this.x, this.y, this.width, this.height, this.coolColor);
     }
 
     onTick() {
+
+        if (this.hovered) this.coolColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+
         this.time++;
         this.x = this._startingX + (this.speed * Math.cos(this.wobbleRotation * Math.PI / 180) * this.time);
         this.y = this._startingY + (this.speed * Math.sin(this.wobbleRotation * Math.PI / 180) * this.time);
     }
+
+    onAnyClick = () => {
+        this.add(new SpinnyEmitter(this.x, this.y))
+    }
+
+
 
 }
 

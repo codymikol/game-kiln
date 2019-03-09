@@ -34,12 +34,12 @@ export default class ScreenManager {
         return this.ctx;
     }
 
-    static getCanvas() {
-        return document.getElementById('a');
+    getCanvas() {
+        return this.canvas;
     }
 
-    static getRect() {
-        return ScreenManager.getCanvas().getBoundingClientRect();
+    getRect() {
+        return this.getCanvas().getBoundingClientRect();
     }
 
     resize() {

@@ -19,6 +19,7 @@ export default class KEntity {
         this._childEntities = [];
         this.setKiln = function (kiln) {
             this.kiln = kiln;
+            this.mouse = new Mouse(kiln);
         };
         this._anyclick = function () {
             if (this.onAnyClick) this.onAnyClick();
@@ -78,28 +79,26 @@ export default class KEntity {
         };
         let self = this;
 
-        let mouse = new Mouse();
-
         this.handleKeyDown = function (e) {
             self._keydown(e.key);
             self._anykeydown(e.key)
         };
 
-        window.addEventListener('keydown', this.handleKeyDown);
+        window.addEventListener('keydown', this.handleKeyDown.bind(this));
 
         this.handleClick = function () {
             self._anyclick();
             self._click();
         };
 
-        window.addEventListener('click', this.handleClick);
+        window.addEventListener('click', this.handleClick.bind(this));
 
         this.handleMouseMove = function () {
-            self.hovered = mouseInBounds(self.x, self.y, self.height, self.width, mouse.x, mouse.y);
+            self.hovered = mouseInBounds(self.x, self.y, self.height, self.width, this.mouse.x, this.mouse.y);
             self._mousemove();
         };
 
-        window.addEventListener('mousemove', this.handleMouseMove);
+        window.addEventListener('mousemove', this.handleMouseMove.bind(this));
 
     }
 

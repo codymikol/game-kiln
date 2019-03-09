@@ -1,13 +1,16 @@
 import ScreenManager from "../../../KScreen/ScreenManager";
 
-let instance = null;
+let instanceMap = {};
 
 export default class Mouse {
 
-    constructor() {
+    constructor(kiln) {
 
-        if(instance) return instance;
-        instance = this;
+        if(instanceMap[kiln]) return instanceMap[kiln];
+        instanceMap[kiln] = this;
+
+        this.kiln = kiln;
+        this._screenManager = new ScreenManager(this.kiln);
 
         this.mousePos = {
             x:0,
@@ -15,7 +18,7 @@ export default class Mouse {
         };
 
         window.addEventListener('mousemove', (e) => {
-            let rect = ScreenManager.getRect();
+            let rect = this._screenManager.getRect();
             this.mousePos.x = e.clientX - rect.left;
             this.mousePos.y = e.clientY - rect.top;
         })
