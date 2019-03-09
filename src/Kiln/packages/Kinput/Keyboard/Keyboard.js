@@ -7,7 +7,8 @@ export default class Keyboard {
         if(instance) return instance;
         instance = this;
         this.keyDown = {};
-        ['keyup', 'keydown'].forEach((e) => {window.addEventListener(e, this.bindKey.bind(this))});
+        this.bindKey = this.bindKey.bind(this);
+        ['keyup', 'keydown'].forEach((e) => {window.addEventListener(e, this.bindKey)});
     }
 
     bindKey(e) {
@@ -15,7 +16,7 @@ export default class Keyboard {
     }
 
     isDown(key) {
-        return this.keyDown[key.toLowerCase()];
+        return !!this.keyDown[key.toLowerCase()];
     }
 
     isUp(key) {
