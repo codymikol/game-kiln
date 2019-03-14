@@ -2,6 +2,7 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
+    devtool: 'eval-source-map',
     entry: {
         Kiln: './src/Kiln/standalone/Kiln.js',
         KGame: './src/Kiln/packages/KGame/KGame.js',
