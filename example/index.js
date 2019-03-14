@@ -47,6 +47,14 @@ class Spinny extends Kiln.Entity {
         this.speed = .1;
         this.coolColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
         this._keyboard = new Kiln.Input.Keyboard();
+        this._keyboard.onDown('e', () => {
+            this.coolColor = 'grey';
+        });
+        this._keyboard.onUp('e', () => {
+            //TODO: This should remove the entity from the parent screen, good news is that child entity
+            //destruction seems to work great :D
+            this.destroy();
+        });
     }
 
     onCreate = () => {

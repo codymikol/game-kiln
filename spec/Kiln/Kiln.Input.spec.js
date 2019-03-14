@@ -3,10 +3,11 @@ describe('Input', function () {
     describe('Keyboard Interaction', function () {
 
         let keyboard = new Kiln.Input.Keyboard();
+        let down = new KeyboardEvent('keydown', {key: "E"});
+        let up = new KeyboardEvent('keyup', {key: "E"});
 
         afterEach(function () {
-            //reset the keydown between tests otherwise they will conflict.
-            keyboard.keyDown = {};
+            keyboard.reset();
         });
 
         it('should allow me to create a keybaord instance', function () {
@@ -26,27 +27,14 @@ describe('Input', function () {
             });
 
             it('should return true when a key is down', function () {
-
-                var down = new KeyboardEvent('keydown', {key: "E"});
-
                 window.dispatchEvent(down);
-
                 expect(keyboard.isDown('e')).toBe(true);
-
             });
 
             it('should return false when a key is down and then up', function () {
-
-                var down = new KeyboardEvent('keydown', {key: "E"});
-
                 window.dispatchEvent(down);
-
-                var up = new KeyboardEvent('keyup', {key: "E"});
-
                 window.dispatchEvent(up);
-
                 expect(keyboard.isDown('e')).toBe(false);
-
             });
         });
 
@@ -57,28 +45,100 @@ describe('Input', function () {
             });
 
             it('should return false when a key is down', function () {
-
-                var down = new KeyboardEvent('keydown', {key: "E"});
-
                 window.dispatchEvent(down);
-
                 expect(keyboard.isUp('e')).toBe(false);
-
             });
 
             it('should return true when a key is down and then up', function () {
-
-                var down = new KeyboardEvent('keydown', {key: "E"});
-
                 window.dispatchEvent(down);
-
-                var up = new KeyboardEvent('keyup', {key: "E"});
-
                 window.dispatchEvent(up);
-
                 expect(keyboard.isUp('e')).toBe(true);
-
             });
+        });
+
+        describe('reset', function () {
+            
+            it('should reset all keyDown entries to an empty object', function () {
+                window.dispatchEvent(down);
+                expect(keyboard.keyDown).toEqual({e: true});
+                keyboard.reset();
+                expect(keyboard.keyDown).toEqual({});
+            });
+            
+            it('should reset all _downEvents', function () {
+                var a;
+                expect(keyboard._downEvents).toEqual({});
+                var id = keyboard.onDown('e', () =>  a = 1);
+                expect(keyboard._downEvents['e'].get(id)).toBeDefined();
+                keyboard.reset();
+                expect(keyboard._downEvents).toEqual({});
+            });
+
+            xit('should reset all _upEvents', function () {
+                var a;
+                expect(keyboard._downEvents).toEqual(new Map());
+                var id = keyboard.onDown('e', () =>  a = 1);
+                expect(keyboard._downEvents.get(id)).toBeDefined();
+                keyboard.reset();
+                expect(keyboard._downEvents.get(id)).toBeUndefined();
+            });
+            
+        });
+
+        describe('onDown', function () {
+
+            let a;
+
+            beforeEach(function () {
+               a = 0;
+            });
+
+            it('should add a fire a function on the passed key down', function () {
+                var a = 0;
+                keyboard.onDown('e', () => a += 1);
+                expect(a).toEqual(0);
+                window.dispatchEvent(down);
+                expect(a).toEqual(1);
+            });
+
+            it('should continue to track key events', function () {
+                var a = 0;
+                keyboard.onDown('e', () => a += 1);
+                expect(a).toEqual(0);
+                window.dispatchEvent(down);
+                expect(a).toEqual(1);
+                window.dispatchEvent(down);
+                expect(a).toEqual(2);
+            });
+
+        });
+
+        describe('onUp', function () {
+
+            let a;
+
+            beforeEach(function () {
+                a = 0;
+            });
+
+            it('should add a fire a function on the passed key up', function () {
+                var a = 0;
+                keyboard.onUp('e', () => a += 1);
+                expect(a).toEqual(0);
+                window.dispatchEvent(up);
+                expect(a).toEqual(1);
+            });
+
+            it('should continue to track key events', function () {
+                var a = 0;
+                keyboard.onUp('e', () => a += 1);
+                expect(a).toEqual(0);
+                window.dispatchEvent(up);
+                expect(a).toEqual(1);
+                window.dispatchEvent(up);
+                expect(a).toEqual(2);
+            });
+
         });
 
 
