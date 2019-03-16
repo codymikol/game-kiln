@@ -3,13 +3,9 @@ const path = require('path');
 module.exports = {
     mode: 'development',
     devtool: 'eval-source-map',
+    context: path.resolve(__dirname, './src'),
     entry: {
-        Kiln: './src/Kiln/standalone/Kiln.js',
-        KGame: './src/Kiln/packages/KGame/KGame.js',
-        KScreen: './src/Kiln/packages/KScreen/KScreen.js',
-        KEntity: './src/Kiln/packages/KEntity/KEntity.js',
-        KDraw: './src/Kiln/packages/KDraw/KDraw.js',
-        KInput: './src/Kiln/packages/KInput/KInput.js'
+        Kiln: './Kiln/standalone/Kiln.js',
     },
     output: {
         filename: '[name].bundle.js',
