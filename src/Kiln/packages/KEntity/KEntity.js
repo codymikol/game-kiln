@@ -45,13 +45,7 @@ export default class KEntity {
             this.zoom = Math.round(window.devicePixelRatio * 100 / 2);
             if (this.onResize) this.onResize();
         };
-        this._keydown = function (key) {
-            if (this['on' + key.toUpperCase() + 'Down']) this['on' + key.toUpperCase() + 'Down']();
-        };
-        this._anykeydown = function (key) {
-            if (this.onAnyKeyDown) this.onAnyKeyDown(key);
-        };
-        this.interval = function (fn, interval) {
+       this.interval = function (fn, interval) {
             this._intervalList.push(setInterval(fn.bind(this), interval));
         };
         this.timeout = function (fn, timeout) {
@@ -69,7 +63,6 @@ export default class KEntity {
             this._childEntities.forEach((x) => x.destroy());
             this._intervalList.forEach((x) => clearInterval(x));
             this._timeoutList.forEach((x) => clearTimeout(x));
-            window.removeEventListener('keydown', this.handleKeyDown);
             window.removeEventListener('click', this.handleClick);
             window.removeEventListener('mousemove', this.handleMouseMove);
             if(this._parent) this._parent.delete(this.id);
@@ -79,13 +72,6 @@ export default class KEntity {
         };
 
         let self = this;
-
-        this.handleKeyDown = function (e) {
-            self._keydown(e.key);
-            self._anykeydown(e.key)
-        };
-
-        window.addEventListener('keydown', this.handleKeyDown.bind(this));
 
         this.handleClick = function () {
             self._anyclick();
