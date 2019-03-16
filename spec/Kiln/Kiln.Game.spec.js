@@ -5,6 +5,11 @@ describe('Game', function () {
             constructor() {
                 super();
             }
+
+            onCreate = () => {
+                this.mustBeDefinedToNotThrowGlobalError = true;
+            }
+
         }
 
         var errorPrefix = '\nKiln.Game accepts [name, canvas, screen] args, \nBUT The below errors occurred';

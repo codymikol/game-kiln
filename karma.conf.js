@@ -1,17 +1,26 @@
+const path = require('path');
+
 module.exports = function(config) {
   config.set({
-    basePath: '',
+    basePath: path.resolve(__dirname, './'),
     frameworks: ['jasmine'],
-    files: [
-      'dist/Kiln.bundle.js',
-      'spec/**/*.js',
+    preprocessors: {
+      './spec/**/*.js': ['babel']
+    },
+    exclude: [
+        'karma.conf.js',
+        'webpack.config.js'
     ],
-    reporters: ['progress'],
+    files: [
+      './dist/Kiln.bundle.js',
+      './spec/**/*.js',
+    ],
+    reporters: ["spec"],
     port: 9876,
     colors: true,
     logLevel: config.LOG_ERROR,
     autoWatch: false,
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
     singleRun: false,
     concurrency: Infinity,
   })
