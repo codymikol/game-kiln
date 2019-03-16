@@ -1,4 +1,7 @@
 ### Hello!
+
+[![Join the chat at https://gitter.im/game-kiln-chat/community](https://badges.gitter.im/game-kiln-chat/community.svg)](https://gitter.im/game-kiln-chat/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
  
 This is an engine for creating games on the web.
  
