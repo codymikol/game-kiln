@@ -1,6 +1,6 @@
 {
   "name": "game-kiln",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A 2d web game framework built on simplicity and scalability",
   "main": "src/index.js",
   "scripts": {
