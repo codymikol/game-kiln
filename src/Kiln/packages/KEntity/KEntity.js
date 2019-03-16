@@ -1,5 +1,7 @@
 import Mouse from "./Input/Mouse/Mouse";
 import ScreenManager from "../KScreen/ScreenManager";
+import EntityManager from "./EntityManager";
+import {noop} from "lodash"
 
 //TODO: This really does not belong here... :/
 function mouseInBounds(x, y, height, width, mouseX, mouseY) {
@@ -9,6 +11,7 @@ function mouseInBounds(x, y, height, width, mouseX, mouseY) {
 export default class KEntity {
     constructor(x, y, height, width) {
         this.kiln = null;
+        this.id = new EntityManager().getNextEntityId();
         this.x = x;
         this.y = y;
         this.height = height;
@@ -17,6 +20,8 @@ export default class KEntity {
         this._intervalList = [];
         this._timeoutList = [];
         this._childEntities = [];
+        this.onDestroy = noop;
+        this.onCreate = noop;
         this.setKiln = function (kiln) {
             this.kiln = kiln;
             this.mouse = new Mouse(kiln);
@@ -66,17 +71,13 @@ export default class KEntity {
             this._timeoutList.forEach((x) => clearTimeout(x));
             window.removeEventListener('keydown', this.handleKeyDown);
             window.removeEventListener('click', this.handleClick);
-            window.removeEventListener('mousemove', this.handleMouseMove)
+            window.removeEventListener('mousemove', this.handleMouseMove);
+            if(this._parent) this._parent.delete(this.id);
         };
-        this.onDestroy = function () {
-            //Overrideable
+        this.setParent = function(parent) {
+            this._parent = parent;
         };
-        this.create = () => {
-            this.onCreate();
-        };
-        this.onCreate = function () {
-            //Overrideable
-        };
+
         let self = this;
 
         this.handleKeyDown = function (e) {

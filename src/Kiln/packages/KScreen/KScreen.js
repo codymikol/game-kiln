@@ -21,20 +21,17 @@ export default class KScreen {
     }
 
     add(entity) {
-
-        if(!(entity instanceof Kiln.Entity)) {
-            throw new Error('attempted to add non "Kiln.Entity" to "Kiln.Screen"');
-        }
-
-        //TODO: See if there is some way to find out if this is called outside the
+        if(!(entity instanceof Kiln.Entity)) throw new Error('attempted to add non "Kiln.Entity" to "Kiln.Screen"');
+        this.entities[entity.id] = entity;
         entity.setKiln(this.kiln);
-        this.entities[this.nonce] = entity;
-        entity.create(this.nonce, this);
+        entity.setParent(this);
+        entity.onCreate();
         this.nonce++;
     }
 
     delete(key) {
-        this.entities[key].destroy();
+        if(!Number.isInteger(key)) throw new Error('Attempted to delete "Kiln.Entity" from screen, but an invalid id was passed!');
+        if(!this.entities[key]) throw new Error('Tried to delete entity id {' + key + '} but it does not exist!');
         delete this.entities[key];
     }
 
