@@ -53,10 +53,6 @@ class Spinny extends Kiln.Entity {
         this._keyboard.onUp('e', () => {
             this.coolColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
         });
-        this.onTick = function () {
-            this.time++;
-            if (this.time === 30) this.destroy();
-        }
     }
 
     onCreate = () => {
@@ -74,6 +70,12 @@ class Spinny extends Kiln.Entity {
     }
 
     onTick() {
+
+        this.time++;
+
+        if (this.time > 30) {
+            this.destroy();
+        }
 
         if(this._keyboard.isDown('d')) this._startingX+=5;
         if(this._keyboard.isDown('a')) this._startingX-=5;
