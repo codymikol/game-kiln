@@ -14,7 +14,7 @@ class SpinnyEmitter extends Kiln.Entity {
 
         this.interval(function () {
             this.add(new Spinny(this.x, this.y));
-        }, 250);
+        }, 30);
 
         this.interval(function () {
             this.x += this.xVel;
@@ -51,10 +51,12 @@ class Spinny extends Kiln.Entity {
             this.coolColor = 'grey';
         });
         this._keyboard.onUp('e', () => {
-            //TODO: This should remove the entity from the parent screen, good news is that child entity
-            //destruction seems to work great :D
-            this.destroy();
+            this.coolColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
         });
+        this.onTick = function () {
+            this.time++;
+            if (this.time === 30) this.destroy();
+        }
     }
 
     onCreate = () => {
