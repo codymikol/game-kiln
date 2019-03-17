@@ -43,15 +43,15 @@ export default class ScreenManager {
     }
 
     resize() {
-        this.activeScreen.forEntities((e) => e._resize())
+        this.activeScreen.forEntities((e) => e.onResize())
     }
 
     tick(delta) {
-        this.activeScreen.forEntities((e) => e._tick(delta));
+        this.activeScreen.forEntities((e) => e.onTick(delta));
     }
 
     render() {
-        this.activeScreen.forEntities((e) => e._render());
+        this.activeScreen.forEntities((e) => e.onRender());
     }
 
     set(screenInstance) {
