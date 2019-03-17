@@ -28,9 +28,9 @@ class SpinnyEmitter extends Kiln.Entity {
 
     };
 
-    render() {
+    onRender = () => {
         this.brush.square(this.x, this.y, this.width, this.height, 'red');
-    }
+    };
 
 }
 
@@ -64,12 +64,12 @@ class Spinny extends Kiln.Entity {
 
     };
 
-    render() {
+    onRender = () => {
         let brush = new Kiln.Draw('pong');
         brush.square(this.x, this.y, this.width, this.height, this.coolColor);
-    }
+    };
 
-    onTick() {
+    onTick = () => {
 
         this.time++;
 
@@ -87,13 +87,11 @@ class Spinny extends Kiln.Entity {
         this.time++;
         this.x = this._startingX + (this.speed * Math.cos(this.wobbleRotation * Math.PI / 180) * this.time);
         this.y = this._startingY + (this.speed * Math.sin(this.wobbleRotation * Math.PI / 180) * this.time);
-    }
+    };
 
     onClick = () => {
         this.add(new SpinnyEmitter(this.x, this.y))
     };
-
-
 
 }
 

@@ -20,6 +20,9 @@ export default class KEntity {
         this._intervalList = [];
         this._timeoutList = [];
         this._childEntities = [];
+        this.onTick = noop;
+        this.onRender = noop;
+        this.onResize = noop;
         this.onDestroy = noop;
         this.onCreate = noop;
         this.setKiln = function (kiln) {
@@ -32,18 +35,8 @@ export default class KEntity {
         this._click = function () {
             if (this.hovered && this.onClick) this.onClick();
         };
-        this._render = function () {
-            if (this.render) this.render();
-        };
         this._mousemove = function () {
             if (this.onMouseMove) this.onMouseMove();
-        };
-        this._tick = function (delta) {
-            if (this.onTick) this.onTick(delta);
-        };
-        this._resize = function () {
-            this.zoom = Math.round(window.devicePixelRatio * 100 / 2);
-            if (this.onResize) this.onResize();
         };
        this.interval = function (fn, interval) {
             this._intervalList.push(setInterval(fn.bind(this), interval));
