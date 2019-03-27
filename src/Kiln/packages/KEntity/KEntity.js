@@ -1,7 +1,7 @@
 import Mouse from "./Input/Mouse/Mouse";
 import ScreenManager from "../KScreen/ScreenManager";
 import EntityManager from "./EntityManager";
-import {noop} from "lodash"
+import noop from "lodash/noop"
 
 //TODO: This really does not belong here... :/
 function mouseInBounds(x, y, height, width, mouseX, mouseY) {
