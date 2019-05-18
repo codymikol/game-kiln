@@ -1,12 +1,15 @@
 {
   "name": "game-kiln",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "A 2d web game framework built on simplicity and scalability",
   "main": "src/index.js",
   "entry": "dist/Kiln.bundle.js",
   "scripts": {
     "test": "webpack --display-error-details && ./node_modules/.bin/karma start --single-run",
-    "build": "webpack --display-error-details"
+    "build:dev": "webpack --display-error-details",
+    "build:prod": "NODE_ENV=production webpack --config ./webpack.production.config.js",
+    "build": "NODE_ENV=production webpack --config ./webpack.production.config.js",
+    "prepublish": "./publish.sh"
   },
   "repository": {
     "type": "git",
@@ -33,6 +36,7 @@
     "@babel/plugin-proposal-class-properties": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
     "babel-loader": "^8.0.4",
+    "compression-webpack-plugin": "^2.0.0",
     "jasmine": "^3.3.1",
     "karma": "^4.0.1",
     "karma-babel-preprocessor": "^8.0.0",
@@ -40,6 +44,7 @@
     "karma-jasmine": "^2.0.1",
     "karma-spec-reporter": "^0.0.32",
     "karma-webpack": "^3.0.5",
+    "standard-version": "^6.0.1",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0"
   },
