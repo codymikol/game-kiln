@@ -1,3 +1,26 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [0.2.0](https://github.com/codymikol/game-kiln/compare/v0.0.4...v0.2.0) (2019-06-01)
+
+
+### Bug Fixes
+
+* **imports:** properly pull in lodash modules ([c7db4ee](https://github.com/codymikol/game-kiln/commit/c7db4ee)), closes [#72](https://github.com/codymikol/game-kiln/issues/72)
+* **notes:** remove out of date notes ([0309d4d](https://github.com/codymikol/game-kiln/commit/0309d4d)), closes [#46](https://github.com/codymikol/game-kiln/issues/46)
+* **npm:** add missing entrypoint ([16c9673](https://github.com/codymikol/game-kiln/commit/16c9673)), closes [#66](https://github.com/codymikol/game-kiln/issues/66)
+* **test:** make the package json test hook work for travis ([bb94e35](https://github.com/codymikol/game-kiln/commit/bb94e35)), closes [#60](https://github.com/codymikol/game-kiln/issues/60)
+* **travis-ci:** config file was wrong ([c7d9d5c](https://github.com/codymikol/game-kiln/commit/c7d9d5c)), closes [#61](https://github.com/codymikol/game-kiln/issues/61)
+
+
+### Features
+
+* **ci:** add travis ci integration ([c19d398](https://github.com/codymikol/game-kiln/commit/c19d398)), closes [#54](https://github.com/codymikol/game-kiln/issues/54)
+* **packaging:** add prepublish script and standard-version ([12e3949](https://github.com/codymikol/game-kiln/commit/12e3949)), closes [#53](https://github.com/codymikol/game-kiln/issues/53)
+
+
+
 
 ### Version 0.0.4
 
@@ -39,4 +62,3 @@ Unfortunately we don't have proper documentation yet, but feel free to fiddle ar
 Pre alpha initial release, not really usable unless you know exactly what you're doing. Only madmen and those with nothing to lose should try to use this ;)
 
 * Added a bunch of random stuff unusable to humans
-
