@@ -7,7 +7,6 @@ class SpinnyEmitter extends Kiln.Entity {
         this.xVel = 5;
         this.yVel = 5;
         this.brush = new Kiln.Draw('pong');
-        this.ctx = this.brush.getCtx();
     }
 
     onCreate = () => {
@@ -47,18 +46,24 @@ class Spinny extends Kiln.Entity {
         this.speed = .1;
         this.coolColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
         this._keyboard = new Kiln.Input.Keyboard();
+
+        this._mouse = new Kiln.Input.Mouse();
+
         this._keyboard.onDown('e', () => {
             this.coolColor = 'grey';
         });
+
         this._keyboard.onUp('e', () => {
             this.coolColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
         });
+
+        this._mouse.onDown(this,() => this.add(new SpinnyEmitter(this.x, this.y)));
     }
 
     onCreate = () => {
 
         this.interval(function () {
-            if (this.wobbleRotation === 361) this.wobbleRotation = 0;
+            if (this.wobbleRotation === 36001) this.wobbleRotation = 0;
             this.wobbleRotation++;
         }, 20);
 
@@ -73,7 +78,7 @@ class Spinny extends Kiln.Entity {
 
         this.time++;
 
-        if (this.time > 30) {
+        if (this.time > 300) {
             this.destroy();
         }
 
@@ -82,16 +87,34 @@ class Spinny extends Kiln.Entity {
         if(this._keyboard.isDown('s')) this._startingY+=5;
         if(this._keyboard.isDown('w')) this._startingY-=5;
 
-        if (this.hovered) this.coolColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        if (this._mouse.isHovered(this)) this.coolColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
         this.time++;
         this.x = this._startingX + (this.speed * Math.cos(this.wobbleRotation * Math.PI / 180) * this.time);
         this.y = this._startingY + (this.speed * Math.sin(this.wobbleRotation * Math.PI / 180) * this.time);
     };
 
-    onClick = () => {
-        this.add(new SpinnyEmitter(this.x, this.y))
-    };
+}
+
+class Button extends Kiln.Entity {
+
+    constructor(x, y) {
+        super(x,y);
+        this.height = 100;
+        this.width = 100;
+        this.mouse = new Kiln.Input.Mouse();
+        this.keyboard = new Kiln.Input.Keyboard();
+        this.mouse.onDown(this, ()=> {
+            alert('hit me');
+        });
+        this.keyboard.onDown('d', () => this.x += 5);
+        this.keyboard.onDown('w', () => this.y += 5);
+    }
+
+    onRender = () => {
+        let brush = new Kiln.Draw('pong');
+        brush.square(this.x, this.y, this.width, this.height, this.mouse.isHovered(this) ? 'green' : 'purple');
+    }
 
 }
 
@@ -102,6 +125,7 @@ class MenuScreen extends Kiln.Screen {
     }
 
     onCreate() {
+        this.add(new Button(200,200));
         this.add(new SpinnyEmitter(1000, 500));
     }
 
