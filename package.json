@@ -7,7 +7,7 @@
   "scripts": {
     "test": "webpack --display-error-details && ./node_modules/.bin/karma start --single-run",
     "build:dev": "webpack --display-error-details",
-    "build:prod": "NODE_ENV=production webpack --config ./webpack.production.config.js",
+    "build:prod": "webpack --config ./webpack.production.config.js",
     "build": "NODE_ENV=production webpack --config ./webpack.production.config.js",
     "prepublish": "./publish.sh"
   },

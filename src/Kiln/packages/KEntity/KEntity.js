@@ -1,12 +1,6 @@
-import Mouse from "./Input/Mouse/Mouse";
 import ScreenManager from "../KScreen/ScreenManager";
 import EntityManager from "./EntityManager";
 import noop from "lodash/noop"
-
-//TODO: This really does not belong here... :/
-function mouseInBounds(x, y, height, width, mouseX, mouseY) {
-    return mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height;
-}
 
 export default class KEntity {
     constructor(x, y, height, width) {
@@ -16,7 +10,6 @@ export default class KEntity {
         this.y = y;
         this.height = height;
         this.width = width;
-        this.hovered = false;
         this._intervalList = [];
         this._timeoutList = [];
         this._childEntities = [];
@@ -27,16 +20,6 @@ export default class KEntity {
         this.onCreate = noop;
         this.setKiln = function (kiln) {
             this.kiln = kiln;
-            this.mouse = new Mouse(kiln);
-        };
-        this._anyclick = function () {
-            if (this.onAnyClick) this.onAnyClick();
-        };
-        this._click = function () {
-            if (this.hovered && this.onClick) this.onClick();
-        };
-        this._mousemove = function () {
-            if (this.onMouseMove) this.onMouseMove();
         };
        this.interval = function (fn, interval) {
             this._intervalList.push(setInterval(fn.bind(this), interval));
@@ -56,29 +39,11 @@ export default class KEntity {
             this._childEntities.forEach((x) => x.destroy());
             this._intervalList.forEach((x) => clearInterval(x));
             this._timeoutList.forEach((x) => clearTimeout(x));
-            window.removeEventListener('click', this.handleClick);
-            window.removeEventListener('mousemove', this.handleMouseMove);
             if(this._parent) this._parent.delete(this.id);
         };
         this.setParent = function(parent) {
             this._parent = parent;
         };
-
-        let self = this;
-
-        this.handleClick = function () {
-            self._anyclick();
-            self._click();
-        };
-
-        window.addEventListener('click', this.handleClick.bind(this));
-
-        this.handleMouseMove = function () {
-            self.hovered = mouseInBounds(self.x, self.y, self.height, self.width, this.mouse.x, this.mouse.y);
-            self._mousemove();
-        };
-
-        window.addEventListener('mousemove', this.handleMouseMove.bind(this));
 
     }
 

@@ -1,3 +1,5 @@
+
+
 describe('Input', function () {
 
     describe('Keyboard Interaction', function () {
@@ -10,7 +12,7 @@ describe('Input', function () {
             keyboard.reset();
         });
 
-        it('should allow me to create a keybaord instance', function () {
+        it('should allow me to create a keyboard instance', function () {
             expect(new Kiln.Input.Keyboard()).toBeDefined();
         });
 
@@ -57,33 +59,32 @@ describe('Input', function () {
         });
 
         describe('reset', function () {
-            
+
             it('should reset all keyDown entries to an empty object', function () {
                 window.dispatchEvent(down);
                 expect(keyboard.keyDown).toEqual({e: true});
                 keyboard.reset();
                 expect(keyboard.keyDown).toEqual({});
             });
-            
+
             it('should reset all _downEvents', function () {
                 var a;
                 expect(keyboard._downEvents).toEqual({});
-                var id = keyboard.onDown('e', () =>  a = 1);
+                var id = keyboard.onDown('e', () => a = 1);
                 expect(keyboard._downEvents['e'].get(id)).toBeDefined();
                 keyboard.reset();
                 expect(keyboard._downEvents).toEqual({});
             });
-
-            //TODO Why did I do this D:
-            xit('should reset all _upEvents', function () {
-                var a;
-                expect(keyboard._downEvents).toEqual(new Map());
-                var id = keyboard.onDown('e', () =>  a = 1);
-                expect(keyboard._downEvents.get(id)).toBeDefined();
-                keyboard.reset();
-                expect(keyboard._downEvents.get(id)).toBeUndefined();
-            });
             
+            it('should reset all _upEvents', function () {
+                var a;
+                expect(keyboard._upEvents).toEqual({});
+                var id = keyboard.onUp('e', () => a = 1);
+                expect(keyboard._upEvents['e'].get(id)).toBeDefined();
+                keyboard.reset();
+                expect(keyboard._upEvents).toEqual({})
+            });
+
         });
 
         describe('onDown', function () {
@@ -91,7 +92,7 @@ describe('Input', function () {
             let a;
 
             beforeEach(function () {
-               a = 0;
+                a = 0;
             });
 
             it('should add a fire a function on the passed key down', function () {
@@ -144,5 +145,237 @@ describe('Input', function () {
 
 
     });
+
+    describe('Mouse Interaction', function () {
+
+        let mouse = new Kiln.Input.Mouse();
+        let down = new MouseEvent('mousedown', {clientX: 100, clientY: 200});
+        let up = new MouseEvent('mouseup', {clientX: 100, clientY: 200});
+        let move = new MouseEvent('mousemove', {clientX: 100, clientY: 200});
+
+        let mockEntity;
+
+        beforeEach(function () {
+           mockEntity = new Kiln.Entity(100, 100, 10, 10)
+        });
+
+        afterEach(function () {
+            mouse.reset();
+        });
+
+        it('should allow me to create a new Mouse instance', function () {
+            expect(new Kiln.Input.Mouse()).toBeDefined();
+        });
+
+        it('should always give me the same instance of Mouse as it is a singleton', function () {
+            mouse.cached = 'hello';
+            let mouseTwo = new Kiln.Input.Mouse();
+            expect(mouseTwo.cached).toEqual('hello')
+        });
+
+        describe('reset', function () {
+
+        });
+
+        describe('x', function () {
+            it('should return the current value of x', function () {
+                expect(mouse.x()).toEqual(0);
+                window.dispatchEvent(move);
+                expect(mouse.x()).toEqual(100)
+            });
+        });
+
+        describe('y', function () {
+            it('should return the current value of y', function () {
+                expect(mouse.y()).toEqual(0);
+                window.dispatchEvent(move);
+                expect(mouse.y()).toEqual(200)
+            });
+        });
+
+        describe('isHovered', function () {
+
+            let moveInBounds = new MouseEvent('mousemove', {clientX: 100, clientY: 100});
+            let moveOutBounds = new MouseEvent('mousemove', {clientX: 1000, clientY: 1000});
+
+            it('should be defined', function () {
+                expect(mouse.isHovered).toBeDefined();
+            });
+
+            it('should return true if the passed entity intersects the last known mousePos', function () {
+                window.dispatchEvent(moveInBounds);
+                expect(mouse.isHovered(mockEntity)).toBe(true);
+            });
+
+            it('should return false if the passed entity does NOT intersect the last known mousePos', function () {
+                window.dispatchEvent(moveOutBounds);
+                expect(mouse.isHovered(mockEntity)).toBe(false);
+            });
+
+        });
+
+        describe('isDown', function () {
+
+            it('should track the up and down state of the mouse correctly returning true or false', function () {
+                window.dispatchEvent(down);
+                expect(mouse.isDown()).toBe(true);
+                window.dispatchEvent(up);
+                expect(mouse.isDown()).toBe(false);
+                window.dispatchEvent(down);
+                expect(mouse.isDown()).toBe(true);
+            });
+
+        });
+
+        describe('isUp', function () {
+
+            it('should track the up and down state of the mouse correctly returning true or false', function () {
+                window.dispatchEvent(down);
+                expect(mouse.isUp()).toBe(false);
+                window.dispatchEvent(up);
+                expect(mouse.isUp()).toBe(true);
+                window.dispatchEvent(down);
+                expect(mouse.isUp()).toBe(false);
+            });
+
+        });
+
+        describe('onDown', function () {
+
+            let downInBounds = new MouseEvent('mousedown', {clientX: 100, clientY: 100});
+            let downOutBounds = new MouseEvent('mousedown', {clientX: 1000, clientY: 1000});
+
+            it('should create a function that will trigger on mousedown events', function () {
+                let caught = false;
+                mouse.onDown(mockEntity,() => caught = true);
+                expect(caught).toBe(false);
+                window.dispatchEvent(downInBounds);
+                expect(caught).toBe(true);
+            });
+
+            it('should NOT trigger when the mouse is not in the bounds of the passed entity', function () {
+                let caught = false;
+                mouse.onDown(mockEntity,() => caught = true);
+                expect(caught).toBe(false);
+                window.dispatchEvent(downOutBounds);
+                expect(caught).toBe(false);
+            });
+
+            it('should NOT trigger for mouseup events', function () {
+                let caught = false;
+                mouse.onDown(mockEntity,() => caught = true);
+                expect(caught).toBe(false);
+                window.dispatchEvent(up);
+                expect(caught).toBe(false);
+            });
+
+            it('should NOT trigger for mousemove events', function () {
+                let caught = false;
+                mouse.onDown(mockEntity,() => caught = true);
+                expect(caught).toBe(false);
+                window.dispatchEvent(move);
+                expect(caught).toBe(false);
+            });
+
+            it('should only propagate one click event', function () {
+                let count = 0;
+                mouse.onDown(mockEntity,() => count++);
+                expect(count).toBe(0);
+                window.dispatchEvent(downInBounds);
+                expect(count).toBe(1);
+                window.dispatchEvent(downInBounds);
+                expect(count).toBe(2);
+            });
+
+        });
+
+        describe('onUp', function () {
+
+            let upInBounds = new MouseEvent('mouseup', {clientX: 100, clientY: 100});
+            let upOutBounds = new MouseEvent('mouseup', {clientX: 1000, clientY: 1000});
+
+            it('should create a function that will trigger on mouseup events', function () {
+                let caught = false;
+                mouse.onUp(mockEntity,() => caught = true);
+                expect(caught).toBe(false);
+                window.dispatchEvent(upInBounds);
+                expect(caught).toBe(true);
+            });
+
+            it('should NOT trigger when mouse is out of the bounds of the passed entity', function () {
+                let caught = false;
+                mouse.onUp(mockEntity,() => caught = true);
+                expect(caught).toBe(false);
+                window.dispatchEvent(upOutBounds);
+                expect(caught).toBe(false);
+            });
+
+            it('should NOT trigger for mousedown events', function () {
+                let caught = false;
+                mouse.onUp(mockEntity,() => caught = true);
+                expect(caught).toBe(false);
+                window.dispatchEvent(down);
+                expect(caught).toBe(false);
+            });
+
+            it('should NOT trigger for mousemove events', function () {
+                let caught = false;
+                mouse.onUp(mockEntity, () => caught = true);
+                expect(caught).toBe(false);
+                window.dispatchEvent(move);
+                expect(caught).toBe(false);
+            });
+
+            it('should only propagate one click event', function () {
+                let count = 0;
+                mouse.onUp(mockEntity,() => count++);
+                expect(count).toBe(0);
+                window.dispatchEvent(upInBounds);
+                expect(count).toBe(1);
+                window.dispatchEvent(upInBounds);
+                expect(count).toBe(2);
+            });
+
+        });
+
+        describe('onMove', function () {
+
+            it('should create a function that will trigger on mousemove events', function () {
+                let caught = false;
+                mouse.onMove(() => caught = true);
+                expect(caught).toBe(false);
+                window.dispatchEvent(move);
+                expect(caught).toBe(true);
+            });
+
+            it('should NOT trigger for mousedown events', function () {
+                let caught = false;
+                mouse.onMove(() => caught = true);
+                expect(caught).toBe(false);
+                window.dispatchEvent(down);
+                expect(caught).toBe(false);
+            });
+
+            it('should NOT trigger for mouseup events', function () {
+                let caught = false;
+                mouse.onMove(() => caught = true);
+                expect(caught).toBe(false);
+                window.dispatchEvent(up);
+                expect(caught).toBe(false);
+            });
+
+            it('should only propagate one click event', function () {
+                let count = 0;
+                mouse.onMove(() => count++);
+                expect(count).toBe(0);
+                window.dispatchEvent(move);
+                expect(count).toBe(1);
+                window.dispatchEvent(move);
+                expect(count).toBe(2);
+            });
+
+        });
+
+    })
 
 });
