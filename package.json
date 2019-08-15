@@ -43,7 +43,7 @@
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^2.0.1",
     "karma-spec-reporter": "^0.0.32",
-    "karma-webpack": "^3.0.5",
+    "karma-webpack": "^4.0.2",
     "standard-version": "^6.0.1",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0"

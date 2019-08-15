@@ -1,10 +1,12 @@
+import KInput from "../../src/Kiln/packages/Kinput/KInput";
+import {KEntity} from "../../src";
 
 
 describe('Input', function () {
 
     describe('Keyboard Interaction', function () {
 
-        let keyboard = new Kiln.Input.Keyboard();
+        let keyboard = new KInput.Keyboard();
         let down = new KeyboardEvent('keydown', {key: "E"});
         let up = new KeyboardEvent('keyup', {key: "E"});
 
@@ -13,12 +15,12 @@ describe('Input', function () {
         });
 
         it('should allow me to create a keyboard instance', function () {
-            expect(new Kiln.Input.Keyboard()).toBeDefined();
+            expect(new KInput.Keyboard()).toBeDefined();
         });
 
         it('should always give me the same instance of Keyboard as it is a singleton', function () {
             keyboard.cached = 'hello';
-            let keyboardTwo = new Kiln.Input.Keyboard();
+            let keyboardTwo = new KInput.Keyboard();
             expect(keyboardTwo.cached).toEqual('hello')
         });
 
@@ -148,7 +150,7 @@ describe('Input', function () {
 
     describe('Mouse Interaction', function () {
 
-        let mouse = new Kiln.Input.Mouse();
+        let mouse = new KInput.Mouse();
         let down = new MouseEvent('mousedown', {clientX: 100, clientY: 200});
         let up = new MouseEvent('mouseup', {clientX: 100, clientY: 200});
         let move = new MouseEvent('mousemove', {clientX: 100, clientY: 200});
@@ -156,7 +158,7 @@ describe('Input', function () {
         let mockEntity;
 
         beforeEach(function () {
-           mockEntity = new Kiln.Entity(100, 100, 10, 10)
+           mockEntity = new KEntity(100, 100, 10, 10)
         });
 
         afterEach(function () {
@@ -164,12 +166,12 @@ describe('Input', function () {
         });
 
         it('should allow me to create a new Mouse instance', function () {
-            expect(new Kiln.Input.Mouse()).toBeDefined();
+            expect(new KInput.Mouse()).toBeDefined();
         });
 
         it('should always give me the same instance of Mouse as it is a singleton', function () {
             mouse.cached = 'hello';
-            let mouseTwo = new Kiln.Input.Mouse();
+            let mouseTwo = new KInput.Mouse();
             expect(mouseTwo.cached).toEqual('hello')
         });
 

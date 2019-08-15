@@ -1,4 +1,5 @@
 import values from 'lodash/values';
+import KEntity from "../KEntity/KEntity";
 
 export default class KScreen {
 
@@ -21,7 +22,7 @@ export default class KScreen {
     }
 
     add(entity) {
-        if(!(entity instanceof Kiln.Entity)) throw new Error('attempted to add non "Kiln.Entity" to "Kiln.Screen"');
+        if(!(entity instanceof KEntity)) throw new Error('attempted to add non "KEntity" to "KScreen"');
         this.entities[entity.id] = entity;
         entity.setKiln(this.kiln);
         entity.setParent(this);
@@ -30,7 +31,7 @@ export default class KScreen {
     }
 
     delete(key) {
-        if(!Number.isInteger(key)) throw new Error('Attempted to delete "Kiln.Entity" from screen, but an invalid id was passed!');
+        if(!Number.isInteger(key)) throw new Error('Attempted to delete "KEntity" from screen, but an invalid id was passed!');
         if(!this.entities[key]) throw new Error('Tried to delete entity id {' + key + '} but it does not exist!');
         delete this.entities[key];
     }

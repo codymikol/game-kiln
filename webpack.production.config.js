@@ -2,18 +2,21 @@ const path = require('path');
 const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
+    target: 'node',
     mode: 'production',
     optimization: {
         usedExports: true
     },
     context: path.resolve(__dirname, './src'),
     entry: {
-        Kiln: './Kiln/standalone/Kiln.js',
+        Kiln: './index.js',
     },
     plugins: [
         new CompressionPlugin()
     ],
     output: {
+        library: 'Kiln',
+        libraryTarget: 'commonjs2',
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, './dist')
     },

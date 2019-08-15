@@ -1,18 +1,19 @@
+import {KEntity} from "../../src";
+
 describe('Entity', function () {
 
     var testEntity;
 
-    class TestEntity extends Kiln.Entity {
+    class TestEntity extends KEntity {
 
         constructor() {
             super();
             this.intervalBoops = 0;
             this.hasCalledCreate = false;
+            this.onCreate = () => {
+                this.hasCalledCreate = true;
+            }
         }
-
-        onCreate = () => {
-            this.hasCalledCreate = true;
-        };
 
     }
 
