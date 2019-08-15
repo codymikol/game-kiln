@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/codymikol/game-kiln/compare/v0.2.1...v0.3.0) (2019-08-15)
+
+
+### Bug Fixes
+
+* **yarn:** change prepublish to publish ([6b42fc4](https://github.com/codymikol/game-kiln/commit/6b42fc4)), closes [#83](https://github.com/codymikol/game-kiln/issues/83)
+
+
+### change
+
+* **webpack:** make project compile to commonjs ([90039ec](https://github.com/codymikol/game-kiln/commit/90039ec)), closes [#82](https://github.com/codymikol/game-kiln/issues/82)
+
+
+### BREAKING CHANGES
+
+* **webpack:** now you can import lib classes /
+functions / etc from the Kiln bundle.itself.
+This was a pretty massive change and will
+completely change how this project can be used.
+Mainly in an easy importable compressable way.
+
+
+
 ### [0.2.1](https://github.com/codymikol/game-kiln/compare/v0.2.0...v0.2.1) (2019-06-01)
 
 
