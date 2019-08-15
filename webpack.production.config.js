@@ -16,7 +16,7 @@ module.exports = {
     ],
     output: {
         library: 'Kiln',
-        libraryTarget: 'commonjs2',
+        libraryTarget: 'umd',
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, './dist')
     },
