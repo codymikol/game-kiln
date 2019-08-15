@@ -1,12 +1,14 @@
+import {KEntity, KScreen} from "../../src";
+
 describe('Screen', function () {
 
-    class TestScreen extends Kiln.Screen {
+    class TestScreen extends KScreen {
         constructor() {
             super();
         }
     }
 
-    class Goblin extends Kiln.Entity {
+    class Goblin extends KEntity {
         constructor() {
             super();
             this.color = 'green';
@@ -38,12 +40,10 @@ describe('Screen', function () {
 
         it('should throw an error when adding something that doesnt extend entity', function () {
             expect(testScreen.add.bind(null, {}))
-                .toThrow(new Error('attempted to add non "Kiln.Entity" to "Kiln.Screen"'))
+                .toThrow(new Error('attempted to add non "KEntity" to "KScreen"'))
         });
 
-        //TODO: This is failing, but can be fixed by #22, this functions under a real deployment, but because
-        //TODO: Mouse is tied into KEntity, it tries to load a canvas. :(
-        xit('should NOT throw when adding valid prototype of entity', function () {
+        it('should NOT throw when adding valid prototype of entity', function () {
             expect(testScreen.add.bind(testScreen, validEntity)).not.toThrow();
         });
 

@@ -1,12 +1,14 @@
+import {KEntity, KScreen} from "../../../src";
+
 describe('Integration of Entities within Screens', function () {
 
-    class MenuScreen extends Kiln.Screen {
+    class MenuScreen extends KScreen {
         constructor() {
             super();
         }
     }
 
-    class CoolEntity extends Kiln.Entity {
+    class CoolEntity extends KEntity {
         constructor() {
             super();
         }
@@ -26,7 +28,7 @@ describe('Integration of Entities within Screens', function () {
 
         it('should throw an error when trying to add a non entity', function () {
             expect(menuScreen.add.bind(null, 'non entity'))
-                .toThrowError('attempted to add non "Kiln.Entity" to "Kiln.Screen"');
+                .toThrowError('attempted to add non "KEntity" to "KScreen"');
         });
 
         it('should add the entity to the screen entities with the key being the entity id'
@@ -57,7 +59,7 @@ describe('Integration of Entities within Screens', function () {
 
         it('should throw an error if the id is not passed', function () {
             expect(menuScreen.delete.bind(null, deleteEntity))
-                .toThrowError('Attempted to delete "Kiln.Entity" from screen, but an invalid id was passed!');
+                .toThrowError('Attempted to delete "KEntity" from screen, but an invalid id was passed!');
         });
 
         it('should remove an entity when the id is correctly passed and throw error', function () {

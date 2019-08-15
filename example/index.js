@@ -1,4 +1,6 @@
-class SpinnyEmitter extends Kiln.Entity {
+import { KEntity, KDraw, KInput, KScreen, KGame } from './dist/Game.bundle'
+
+class SpinnyEmitter extends KEntity {
 
     constructor(x, y) {
         super(x, y);
@@ -6,7 +8,7 @@ class SpinnyEmitter extends Kiln.Entity {
         this.width = 50;
         this.xVel = 5;
         this.yVel = 5;
-        this.brush = new Kiln.Draw('pong');
+        this.brush = new KDraw('pong');
     }
 
     onCreate = () => {
@@ -33,7 +35,7 @@ class SpinnyEmitter extends Kiln.Entity {
 
 }
 
-class Spinny extends Kiln.Entity {
+class Spinny extends KEntity {
 
     constructor(x, y) {
         super(x, y);
@@ -45,9 +47,9 @@ class Spinny extends Kiln.Entity {
         this.wobbleRotation = 80;
         this.speed = .1;
         this.coolColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
-        this._keyboard = new Kiln.Input.Keyboard();
+        this._keyboard = new KInput.Keyboard();
 
-        this._mouse = new Kiln.Input.Mouse();
+        this._mouse = new KInput.Mouse();
 
         this._keyboard.onDown('e', () => {
             this.coolColor = 'grey';
@@ -70,7 +72,7 @@ class Spinny extends Kiln.Entity {
     };
 
     onRender = () => {
-        let brush = new Kiln.Draw('pong');
+        let brush = new KDraw('pong');
         brush.square(this.x, this.y, this.width, this.height, this.coolColor);
     };
 
@@ -96,14 +98,14 @@ class Spinny extends Kiln.Entity {
 
 }
 
-class Button extends Kiln.Entity {
+class Button extends KEntity {
 
     constructor(x, y) {
         super(x,y);
         this.height = 100;
         this.width = 100;
-        this.mouse = new Kiln.Input.Mouse();
-        this.keyboard = new Kiln.Input.Keyboard();
+        this.mouse = new KInput.Mouse();
+        this.keyboard = new KInput.Keyboard();
         this.mouse.onDown(this, ()=> {
             alert('hit me');
         });
@@ -112,13 +114,13 @@ class Button extends Kiln.Entity {
     }
 
     onRender = () => {
-        let brush = new Kiln.Draw('pong');
+        let brush = new KDraw('pong');
         brush.square(this.x, this.y, this.width, this.height, this.mouse.isHovered(this) ? 'green' : 'purple');
     }
 
 }
 
-class MenuScreen extends Kiln.Screen {
+class MenuScreen extends KScreen {
 
     constructor() {
         super();
@@ -131,7 +133,9 @@ class MenuScreen extends Kiln.Screen {
 
 }
 
+
+
 window.onload = function () {
-    Kiln.Game('pong', document.getElementById('game'), new MenuScreen());
+    KGame('pong', document.getElementById('game'), new MenuScreen());
 };
 

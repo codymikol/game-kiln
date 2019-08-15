@@ -1,16 +1,14 @@
 const path = require('path');
 
 module.exports = {
-    target: 'node',
+    target:'web',
     mode: 'development',
-    devtool: 'eval-source-map',
-    context: path.resolve(__dirname, './src'),
+    devtool: 'source-map',
+    context: path.resolve(__dirname, './'),
     entry: {
-        Kiln: './index.js',
+        Game: './index.js',
     },
     output: {
-        library: 'Kiln',
-        libraryTarget: 'commonjs2',
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, './dist')
     },

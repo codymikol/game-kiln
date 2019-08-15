@@ -1,8 +1,9 @@
 import LoopManager from "./Loop/LoopManager";
+import {KScreen} from "../../../index";
 
 export default function KGame(kilnName, bindElement, initialScreen) {
 
-    var errorPrefix = '\nKiln.Game accepts [name, canvas, screen] args, \nBUT The below errors occurred';
+    var errorPrefix = '\nKGame accepts [name, canvas, screen] args, \nBUT The below errors occurred';
     var errors =[];
 
     function check(predicate, errorMessage) {
@@ -12,7 +13,7 @@ export default function KGame(kilnName, bindElement, initialScreen) {
     check(!(bindElement instanceof Element), '["canvas" was not a valid DOM element]');
     check(bindElement && bindElement.nodeName !== 'CANVAS', '["canvas" was not a canvas element]');
     check(typeof kilnName !== "string", '["name" was not a string]');
-    check(!initialScreen || !(initialScreen instanceof Kiln.Screen), '["screen" was not an instance of Kiln.Screen]');
+    check(!initialScreen || !(initialScreen instanceof KScreen), '["screen" was not an instance of KScreen]');
 
     if(errors.length > 0) throw new Error(errors.reduce((col, e) => col + '\n' + e, errorPrefix));
 
