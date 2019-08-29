@@ -14,6 +14,7 @@ describe('Game', function () {
 
         var errorPrefix = '\nKGame accepts [name, canvas, screen] args, \nBUT The below errors occurred';
         var canvasElem = document.createElement('CANVAS');
+        canvasElem.id ='cool-id';
         var buttonElem = document.createElement('BUTTON');
         var testScreen = new TestScreen();
 
@@ -48,6 +49,46 @@ describe('Game', function () {
 
         it('should not trow an error if a valid name and canvas element are provided', function () {
             expect(KGame.bind(null, 'new-game', canvasElem, testScreen)).not.toThrow()
+        });
+
+        describe('Getter functionality', function () {
+
+            it('should return a useful error when trying to lookup a non-existing game', function () {
+                expect(KGame.bind(null, 'non-existing-game'))
+                    .toThrow(new Error("No Kiln found for \"non-existing-game\""));
+            });
+
+            describe('When a Kiln does exist', function () {
+
+                var instance;
+
+                beforeAll(function () {
+                    KGame('real-game', canvasElem, testScreen);
+                    instance = KGame('real-game');
+                });
+
+                it('should have the correct name', function () {
+                    expect(instance.name).toEqual('real-game');
+                });
+
+                it('should have an element reference', function () {
+                    expect(instance._element.id).toEqual('cool-id');
+                });
+
+                it('should have the correct gameLoop reference', function () {
+                    expect(instance._loopManager.name).toEqual('real-game');
+                });
+
+                it('should initialize gameLoop', function () {
+                    expect(instance._loopManager.initialized).toBeTruthy();
+                });
+
+                it('should have the corresponding screenManager', function () {
+                    expect(instance._screenManager.kiln).toEqual('real-game')
+                });
+
+            });
+
         });
 
     });
