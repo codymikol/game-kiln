@@ -8,8 +8,7 @@
     "test": "./node_modules/.bin/karma start --single-run",
     "build:dev": "webpack --display-error-details",
     "build:prod": "webpack --config ./webpack.production.config.js",
-    "build": "NODE_ENV=production webpack --config ./webpack.production.config.js",
-    "publish": "./publish.sh"
+    "build": "NODE_ENV=production webpack --config ./webpack.production.config.js"
   },
   "repository": {
     "type": "git",
