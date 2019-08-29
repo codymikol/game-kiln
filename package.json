@@ -17,7 +17,8 @@
   },
   "files": [
     "/dist",
-    "/docs"
+    "/docs",
+    "/src"
   ],
   "keywords": [
     "game-kiln",
