@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.1](https://github.com/codymikol/game-kiln/compare/v0.4.0...v0.4.1) (2019-08-29)
+
+
+### Bug Fixes
+
+* **npm:** build for prod before publish ([bf62e02](https://github.com/codymikol/game-kiln/commit/bf62e02)), closes [#96](https://github.com/codymikol/game-kiln/issues/96)
+* **npm:** retain the src folder ([54c0227](https://github.com/codymikol/game-kiln/commit/54c0227)), closes [#94](https://github.com/codymikol/game-kiln/issues/94)
+
+
+
 ## [0.4.0](https://github.com/codymikol/game-kiln/compare/v0.3.1...v0.4.0) (2019-08-29)
 
 
