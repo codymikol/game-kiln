@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+printf "Running Tests...\n"
+
+if yarn run test > /dev/null ; then
+    printf "Tests Passed!\n"
+else
+    printf "Tests Failed\n"
+    exit 1
+fi
+
 printf "Removing Dist Files...\n"
 
 if rm -rf ./dist > /dev/null ; then
@@ -15,16 +24,6 @@ if yarn run build:prod > /dev/null ; then
     printf "Build Successful!\n"
 else
     printf "Build Failed\n"
-    exit 1
-fi
-
-printf "Running Tests...\n"
-
-
-if yarn run test > /dev/null ; then
-    printf "Tests Passed!\n"
-else
-    printf "Tests Failed\n"
     exit 1
 fi
 
