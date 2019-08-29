@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/codymikol/game-kiln/compare/v0.3.1...v0.4.0) (2019-08-29)
+
+
+### Features
+
+* **KGame:** added a getter and KGameInstance ([3636d0d](https://github.com/codymikol/game-kiln/commit/3636d0d)), closes [#92](https://github.com/codymikol/game-kiln/issues/92)
+
+
+
 ### [0.3.1](https://github.com/codymikol/game-kiln/compare/v0.3.0...v0.3.1) (2019-08-15)
 
 
