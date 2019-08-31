@@ -1,6 +1,6 @@
 {
   "name": "game-kiln",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "A 2d web game framework built on simplicity and scalability",
   "main": "src/index.js",
   "entry": "dist/Kiln.bundle.js",
