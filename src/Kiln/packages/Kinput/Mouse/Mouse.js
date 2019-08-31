@@ -1,9 +1,11 @@
-let instance = null;
+import ScreenManager from "../../KScreen/ScreenManager";
+
+let instanceMap = {};
 
 export default class Mouse {
-    constructor() {
-        if (instance) return instance;
-        instance = this;
+    constructor(kiln) {
+        if(instanceMap[kiln]) return instanceMap[kiln];
+        instanceMap[kiln] = this;
         this._x = 0;
         this._y = 0;
         this._currentId = 0;
@@ -11,26 +13,18 @@ export default class Mouse {
         this._downEvents = new Map();
         this._moveEvents = new Map();
         this._down = false;
-
+        this._rect = new ScreenManager(kiln).getRect();
         window.addEventListener('mouseup', (e) => {
-            this._x = e.clientX;
-            this._y = e.clientY;
             this._down = false;
-            [...this._upEvents.values()].forEach((fn) => fn(e))
+            this._triggerAllEvents('_upEvents', e);
         });
 
         window.addEventListener('mousedown', (e) => {
-            this._x = e.clientX;
-            this._y = e.clientY;
             this._down = true;
-            [...this._downEvents.values()].forEach((fn) => fn(e))
+            this._triggerAllEvents('_downEvents', e);
         });
 
-        window.addEventListener('mousemove', (e) => {
-            this._x = e.clientX;
-            this._y = e.clientY;
-            [...this._moveEvents.values()].forEach((fn) => fn(e))
-        });
+        window.addEventListener('mousemove', (e) => this._triggerAllEvents('_moveEvents', e));
 
     }
 
@@ -42,6 +36,12 @@ export default class Mouse {
         this._downEvents = new Map();
         this._moveEvents = new Map();
         this._down = false;
+    }
+
+    _triggerAllEvents(eventKey, e) {
+        this._x = e.clientX - this._rect.left;
+        this._y = e.clientY - this._rect.top;
+        [...this[eventKey].values()].forEach((fn) => fn(e));
     }
 
     x() {

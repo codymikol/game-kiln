@@ -1,8 +1,45 @@
-import KInput from "../../src/Kiln/packages/Kinput/KInput";
-import {KEntity} from "../../src";
+import {KInput} from "../../src";
+import {KDraw, KEntity, KScreen} from "../../src";
+import {KGame} from "../../src";
 
 
 describe('Input', function () {
+
+    var mouse, mockKDraw, mockGame;
+
+    beforeAll(function () {
+
+        class TestScreen extends KScreen {
+            constructor() {
+                super();
+                this.onCreate = () => {
+                    this.mustBeDefinedToNotThrowGlobalError = true;
+                }
+            }
+        }
+
+        var canvasElem = document.createElement('CANVAS');
+        canvasElem.id ='test-kiln';
+        var testScreen = new TestScreen();
+
+        mockGame = new KGame('test-kiln', canvasElem, testScreen);
+
+        mockKDraw = new KDraw('test-kiln');
+
+        mouse = new KInput.Mouse('test-kiln');
+
+        spyOn(mockKDraw, 'getCtx').and.returnValue({
+            canvas: {
+                getBoundingClientRect: function () {
+                    return {
+                        left: 0,
+                        top: 0
+                    }
+                }
+            }
+        });
+
+    });
 
     describe('Keyboard Interaction', function () {
 
@@ -150,7 +187,6 @@ describe('Input', function () {
 
     describe('Mouse Interaction', function () {
 
-        let mouse = new KInput.Mouse();
         let down = new MouseEvent('mousedown', {clientX: 100, clientY: 200});
         let up = new MouseEvent('mouseup', {clientX: 100, clientY: 200});
         let move = new MouseEvent('mousemove', {clientX: 100, clientY: 200});
@@ -166,12 +202,12 @@ describe('Input', function () {
         });
 
         it('should allow me to create a new Mouse instance', function () {
-            expect(new KInput.Mouse()).toBeDefined();
+            expect(new KInput.Mouse('test-kiln')).toBeDefined();
         });
 
         it('should always give me the same instance of Mouse as it is a singleton', function () {
             mouse.cached = 'hello';
-            let mouseTwo = new KInput.Mouse();
+            let mouseTwo = new KInput.Mouse('test-kiln');
             expect(mouseTwo.cached).toEqual('hello')
         });
 
