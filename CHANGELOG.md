@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.1](https://github.com/codymikol/game-kiln/compare/v0.5.0...v0.5.1) (2019-09-01)
+
+
+### Bug Fixes
+
+* **mouse:** fix mouse events not cleaning up ([b691634](https://github.com/codymikol/game-kiln/commit/b691634)), closes [#104](https://github.com/codymikol/game-kiln/issues/104) [#81](https://github.com/codymikol/game-kiln/issues/81)
+
+
+
 ## [0.5.0](https://github.com/codymikol/game-kiln/compare/v0.4.1...v0.5.0) (2019-08-31)
 
 
