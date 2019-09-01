@@ -325,6 +325,17 @@ describe('Input', function () {
                 expect(count).toBe(2);
             });
 
+            it('should NOT propagate after the entity is destroyed', function () {
+                let count = 0;
+                mouse.onDown(mockEntity,() => count++);
+                expect(count).toBe(0);
+                window.dispatchEvent(downInBounds);
+                expect(count).toBe(1);
+                mockEntity.destroy();
+                window.dispatchEvent(downInBounds);
+                expect(count).toBe(1);
+            });
+
         });
 
         describe('onUp', function () {
@@ -374,13 +385,24 @@ describe('Input', function () {
                 expect(count).toBe(2);
             });
 
+            it('should NOT trigger after the entity is destroyed', function () {
+                let count = 0;
+                mouse.onUp(mockEntity,() => count++);
+                expect(count).toBe(0);
+                window.dispatchEvent(upInBounds);
+                expect(count).toBe(1);
+                mockEntity.destroy();
+                window.dispatchEvent(upInBounds);
+                expect(count).toBe(1);
+            });
+
         });
 
         describe('onMove', function () {
 
             it('should create a function that will trigger on mousemove events', function () {
                 let caught = false;
-                mouse.onMove(() => caught = true);
+                mouse.onMove(mockEntity,() => caught = true);
                 expect(caught).toBe(false);
                 window.dispatchEvent(move);
                 expect(caught).toBe(true);
@@ -388,7 +410,7 @@ describe('Input', function () {
 
             it('should NOT trigger for mousedown events', function () {
                 let caught = false;
-                mouse.onMove(() => caught = true);
+                mouse.onMove(mockEntity,() => caught = true);
                 expect(caught).toBe(false);
                 window.dispatchEvent(down);
                 expect(caught).toBe(false);
@@ -396,7 +418,7 @@ describe('Input', function () {
 
             it('should NOT trigger for mouseup events', function () {
                 let caught = false;
-                mouse.onMove(() => caught = true);
+                mouse.onMove(mockEntity,() => caught = true);
                 expect(caught).toBe(false);
                 window.dispatchEvent(up);
                 expect(caught).toBe(false);
@@ -404,13 +426,24 @@ describe('Input', function () {
 
             it('should only propagate one click event', function () {
                 let count = 0;
-                mouse.onMove(() => count++);
+                mouse.onMove(mockEntity,() => count++);
                 expect(count).toBe(0);
                 window.dispatchEvent(move);
                 expect(count).toBe(1);
                 window.dispatchEvent(move);
                 expect(count).toBe(2);
             });
+
+            it('should NOT trigger after the entity has been destroyed', function () {
+                let count = 0;
+                mouse.onMove(mockEntity,() => count++);
+                expect(count).toBe(0);
+                window.dispatchEvent(move);
+                expect(count).toBe(1);
+                mockEntity.destroy();
+                window.dispatchEvent(move);
+                expect(count).toBe(1);
+            })
 
         });
 
