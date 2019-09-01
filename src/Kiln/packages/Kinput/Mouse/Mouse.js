@@ -1,4 +1,5 @@
 import ScreenManager from "../../KScreen/ScreenManager";
+import {each} from "lodash";
 
 let instanceMap = {};
 
@@ -31,7 +32,7 @@ export default class Mouse {
         this._down = isDown;
         this._x = e.clientX - this._rect.left;
         this._y = e.clientY - this._rect.top;
-        [...this[eventKey].values()].forEach((fn) => fn(e));
+        each([...this[eventKey].values()], (fn) => fn(e))
     }
 
     _bindToEntity(entity, eventMap, fn) {

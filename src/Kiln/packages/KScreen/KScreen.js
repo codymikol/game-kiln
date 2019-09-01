@@ -1,4 +1,3 @@
-import values from 'lodash/values';
 import KEntity from "../KEntity/KEntity";
 
 export default class KScreen {
@@ -11,14 +10,6 @@ export default class KScreen {
 
     setKiln(kiln) {
         this.kiln = kiln
-    }
-
-    getEntities() {
-        return values(this.entities)
-    }
-
-    forEntities(fn) {
-        this.getEntities().forEach(entity => fn(entity))
     }
 
     add(entity) {
