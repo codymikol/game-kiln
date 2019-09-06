@@ -1,4 +1,8 @@
-import { KEntity, KDraw, KInput, KScreen, KGame } from './dist/Game.bundle'
+import KEntity from "../src/Kiln/packages/KEntity/KEntity";
+import KDraw from "../src/Kiln/packages/KDraw/KDraw";
+import KInput from "../src/Kiln/packages/Kinput/KInput";
+import KScreen from "../src/Kiln/packages/KScreen/KScreen";
+import KGame from "../src/Kiln/packages/KGame/KGame";
 
 class SpinnyEmitter extends KEntity {
 
@@ -14,7 +18,7 @@ class SpinnyEmitter extends KEntity {
     onCreate = () => {
 
         this.interval(function () {
-            this.add(new Spinny(this.x, this.y));
+            this.add(new Spinny(this.x, this.y, this));
         }, 30);
 
         this.interval(function () {
@@ -37,8 +41,9 @@ class SpinnyEmitter extends KEntity {
 
 class Spinny extends KEntity {
 
-    constructor(x, y) {
+    constructor(x, y, parentEmitter) {
         super(x, y);
+        this.parentEmitter = parentEmitter;
         this.height = 25;
         this.width = 145;
         this.time = 0;
@@ -49,7 +54,7 @@ class Spinny extends KEntity {
         this.coolColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
         this._keyboard = new KInput.Keyboard();
 
-        this._mouse = new KInput.Mouse();
+        this._mouse = new KInput.Mouse('pong');
 
         this._keyboard.onDown('e', () => {
             this.coolColor = 'grey';
@@ -59,7 +64,7 @@ class Spinny extends KEntity {
             this.coolColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
         });
 
-        this._mouse.onDown(this,() => this.add(new SpinnyEmitter(this.x, this.y)));
+        this._mouse.onDown(this,() => this.parentEmitter.add(new SpinnyEmitter(this.x, this.y)));
     }
 
     onCreate = () => {
@@ -104,7 +109,7 @@ class Button extends KEntity {
         super(x,y);
         this.height = 100;
         this.width = 100;
-        this.mouse = new KInput.Mouse();
+        this.mouse = new KInput.Mouse('pong');
         this.keyboard = new KInput.Keyboard();
         this.mouse.onDown(this, ()=> {
             alert('hit me');
