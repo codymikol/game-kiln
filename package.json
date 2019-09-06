@@ -32,23 +32,23 @@
   },
   "homepage": "https://github.com/codymikol/game-kiln#readme",
   "devDependencies": {
-    "@babel/core": "^7.3.4",
-    "@babel/plugin-proposal-class-properties": "^7.3.4",
-    "@babel/preset-env": "^7.3.4",
-    "babel-loader": "^8.0.4",
-    "compression-webpack-plugin": "^2.0.0",
-    "jasmine": "^3.3.1",
-    "karma": "^4.0.1",
-    "karma-babel-preprocessor": "^8.0.0",
-    "karma-chrome-launcher": "^2.2.0",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-loader": "^8.0.6",
+    "compression-webpack-plugin": "^3.0.0",
+    "jasmine": "^3.4.0",
+    "karma": "^4.3.0",
+    "karma-babel-preprocessor": "^8.0.1",
+    "karma-chrome-launcher": "^3.1.0",
     "karma-jasmine": "^2.0.1",
     "karma-spec-reporter": "^0.0.32",
     "karma-webpack": "^4.0.2",
-    "standard-version": "^6.0.1",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0"
+    "standard-version": "^7.0.0",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.8"
   },
   "dependencies": {
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.15"
   }
 }
