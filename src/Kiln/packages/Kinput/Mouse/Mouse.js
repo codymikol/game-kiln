@@ -1,5 +1,5 @@
 import ScreenManager from "../../KScreen/ScreenManager";
-import {each} from "lodash";
+import each from "lodash/each";
 
 let instanceMap = {};
 
