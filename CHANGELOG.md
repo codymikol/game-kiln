@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/codymikol/game-kiln/compare/v0.5.2...v0.6.0) (2019-09-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **screen:** you will now need to specify a
+div element rather than a canvas element when
+initializing KGames. The passed div will be filled
+with a canvas element respecting the height and
+width of the container class.
+
+this allows for us to appropriately resize canvas
+and properly track mouse position regardless of
+canvas size. This is good because we can have both
+fixed and variable width games now.
+
+### Bug Fixes
+
+* **build:** remove entire lodash import ([72d1354](https://github.com/codymikol/game-kiln/commit/72d1354)), closes [#112](https://github.com/codymikol/game-kiln/issues/112)
+* **example:** Fix how entities propagate ([dac38f8](https://github.com/codymikol/game-kiln/commit/dac38f8)), closes [#108](https://github.com/codymikol/game-kiln/issues/108)
+* **screen:** generate kiln canvas in container ([f53127e](https://github.com/codymikol/game-kiln/commit/f53127e)), closes [#103](https://github.com/codymikol/game-kiln/issues/103) [#12](https://github.com/codymikol/game-kiln/issues/12)
+* **yarn:** upgrade dependencies ([2dc67e8](https://github.com/codymikol/game-kiln/commit/2dc67e8)), closes [#110](https://github.com/codymikol/game-kiln/issues/110)
+
 ### [0.5.2](https://github.com/codymikol/game-kiln/compare/v0.5.1...v0.5.2) (2019-09-01)
 
 
