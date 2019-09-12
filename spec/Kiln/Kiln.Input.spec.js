@@ -18,11 +18,11 @@ describe('Input', function () {
             }
         }
 
-        var canvasElem = document.createElement('CANVAS');
-        canvasElem.id ='test-kiln';
+        var containerElem = document.createElement('DIV');
+        containerElem.id ='test-kiln';
         var testScreen = new TestScreen();
 
-        mockGame = new KGame('test-kiln', canvasElem, testScreen);
+        mockGame = new KGame('test-kiln', containerElem, testScreen);
 
         mockKDraw = new KDraw('test-kiln');
 

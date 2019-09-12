@@ -5,29 +5,18 @@ let instance = {};
 export default class ScreenManager {
 
     constructor(kiln, elem, initialScreen) {
-
         if (instance[kiln]) return instance[kiln];
         instance[kiln] = this;
-
         this.initialized = false;
         this.kiln = kiln;
         this.canvas = elem;
         this.ctx = elem.getContext('2d');
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
         this.set(initialScreen);
-
         Object.defineProperty(this, 'height', {get: () => this.canvas.height});
         Object.defineProperty(this, 'width', {get: () => this.canvas.width});
-
-        window.addEventListener('resize', () => {
-            this.canvas.width = window.innerWidth;
-            this.canvas.height = window.innerHeight;
-            this.resize();
-        });
-
+        window.addEventListener('resize', this.resize.bind(this));
         window.addEventListener('contextmenu', () => false);
-
+        this.resize();
     }
 
     getCtx() {
@@ -43,6 +32,8 @@ export default class ScreenManager {
     }
 
     resize() {
+        this.canvas.width = this.canvas.parentNode.offsetWidth;
+        this.canvas.height = this.canvas.parentNode.offsetHeight;
         each(this.activeScreen.entities, (e) => e.onResize());
     }
 
