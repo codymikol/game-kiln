@@ -17,6 +17,13 @@ describe('Entity', function () {
 
     }
 
+    class TestChildEntity extends KEntity {
+        constructor() {
+            super();
+            this.name = 'Cody';
+        }
+    }
+
     beforeEach(function () {
         testEntity = new TestEntity();
     });
@@ -92,6 +99,27 @@ describe('Entity', function () {
             expect(testEntity.intervalBoops).toEqual(1)
         });
 
-    })
+    });
+
+    describe('add', function () {
+
+        var child;
+
+        beforeEach(function () {
+            child = new TestChildEntity();
+            spyOn(testEntity, '_addToScreenManager').and.stub();
+            testEntity.kiln = 'cody';
+            testEntity.add(child);
+        });
+
+        it('should set the kiln of the child to that of the parent', function () {
+            expect(child.kiln).toEqual('cody')
+        });
+
+        it('should set the _parent to that of the parent', function () {
+            expect(child._parent).toEqual(testEntity);
+        });
+
+    });
 
 });

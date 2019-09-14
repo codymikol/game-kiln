@@ -28,10 +28,9 @@ export default class KEntity {
             this._timeoutList.push(setTimeout(fn.bind(this), timeout))
         };
         this.add = function (child) {
-            //TODO: Children are linked before the root is added to the screen :(
-            //TODO: I want to add one way binding to child entities :)
-            this._screenManager = this._screenManager || new ScreenManager(this.kiln);
-            this._screenManager.activeScreen.add(child);
+            child.setKiln(this.kiln);
+            child.setParent(this);
+            this._addToScreenManager(child);
             this._childEntities.push(child);
         };
         this.destroy = function () {
@@ -44,6 +43,10 @@ export default class KEntity {
         this.setParent = function(parent) {
             this._parent = parent;
         };
+        this._addToScreenManager = function (child) {
+            this._screenManager = this._screenManager || new ScreenManager(this.kiln);
+            this._screenManager.activeScreen.add(child);
+        }
 
     }
 
