@@ -25,7 +25,8 @@ export default function KGame(kilnName, bindElement, initialScreen) {
     if (KGame(kilnName)) {
         throw new Error('A game with the name ' + kilnName + ' has already been initialized!')
     } else {
-        kGameStore[kilnName] = new KGameInstance(kilnName, bindElement, initialScreen);
+        kGameStore[kilnName] = new KGameInstance(kilnName, bindElement, initialScreen, kGameStore);
+        return kGameStore[kilnName]
     }
 
 }

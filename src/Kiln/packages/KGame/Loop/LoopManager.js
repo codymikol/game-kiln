@@ -7,6 +7,8 @@ export default class LoopManager {
    constructor(kiln, elem, initialScreen) {
        if(instanceMap[kiln]) return instanceMap[kiln];
        instanceMap[kiln] = this;
+       this.paused = false;
+       this.stopped = false;
        this.name = kiln;
        this.initialized = false;
        this.MAX_FPS = 60;
@@ -16,11 +18,28 @@ export default class LoopManager {
        this.loop = this.loop.bind(this);
    }
 
+   _togglePause() {
+       this.paused = !this.paused;
+   }
+
+   _stop() {
+       this.stopped = true;
+       delete instanceMap[this.name];
+   }
+
    loop(timestamp) {
 
-       if (timestamp < this.lastFrameTimeMs + (1000 / this.MAX_FPS)) {
-           requestAnimationFrame(this.loop);
+       if(this.stopped) {
            return;
+       }
+
+       if(this.paused) {
+           this.lastFrameTimeMs = timestamp;
+           return void requestAnimationFrame(this.loop);
+       }
+
+       if (timestamp < this.lastFrameTimeMs + (1000 / this.MAX_FPS)) {
+           return void requestAnimationFrame(this.loop);
        }
 
        let delta = timestamp - this.lastFrameTimeMs;
