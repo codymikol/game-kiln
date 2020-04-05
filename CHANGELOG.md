@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.2](https://github.com/codymikol/game-kiln/compare/v0.6.1...v0.6.2) (2020-04-05)
+
+
+### Bug Fixes
+
+* **KGame:** fix screenManager cleanup ([91a3c29](https://github.com/codymikol/game-kiln/commit/91a3c2993f78d50e95c497d77574a685d609c5a8)), closes [#130](https://github.com/codymikol/game-kiln/issues/130)
+
 ### [0.6.1](https://github.com/codymikol/game-kiln/compare/v0.6.0...v0.6.1) (2020-04-05)
 
 
