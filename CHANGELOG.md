@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.1](https://github.com/codymikol/game-kiln/compare/v0.6.0...v0.6.1) (2020-04-05)
+
+
+### Features
+
+* **github:** add an action for test / build ([f075250](https://github.com/codymikol/game-kiln/commit/f075250def4cc2f685e187fe5284e98e856bc944))
+* **KGame:** added KGame runtime hooks ([60cc170](https://github.com/codymikol/game-kiln/commit/60cc170715437b8f3726bc2e7904cf992d2ac304)), closes [#126](https://github.com/codymikol/game-kiln/issues/126)
+
+
+### Bug Fixes
+
+* **KEntity:** properly propagate kiln name ([df6cf8d](https://github.com/codymikol/game-kiln/commit/df6cf8df3edae0665682fe6c1f59e9afcb7d05d6)), closes [#115](https://github.com/codymikol/game-kiln/issues/115)
+
 ## [0.6.0](https://github.com/codymikol/game-kiln/compare/v0.5.2...v0.6.0) (2019-09-12)
 
 
