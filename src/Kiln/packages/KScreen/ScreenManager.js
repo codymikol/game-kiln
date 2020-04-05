@@ -65,4 +65,8 @@ export default class ScreenManager {
         }
     }
 
+    destroy() {
+        delete instance[this.kiln];
+    }
+
 }
