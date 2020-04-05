@@ -1,4 +1,5 @@
-import {KScreen,KGame} from "../../src";
+import {KScreen, KGame} from "../../src";
+import KGameInstance from "../../src/Kiln/packages/KGame/KGameInstance";
 
 describe('Game', function () {
     describe('Creating a new Kiln', function () {
@@ -12,12 +13,16 @@ describe('Game', function () {
             }
         }
 
-        var errorPrefix = '\nKGame accepts [name, container, screen] args, \nBUT The below errors occurred';
-        var containerElem = document.createElement('DIV');
-        containerElem.id ='cool-id';
-        var buttonElem = document.createElement('BUTTON');
-        var testScreen = new TestScreen();
+        const errorPrefix = '\nKGame accepts [name, container, screen] args, \nBUT The below errors occurred';
 
+        var containerElem, buttonElem, testScreen;
+
+        beforeEach(function () {
+            containerElem = document.createElement('DIV');
+            containerElem.id = 'cool-id';
+            buttonElem = document.createElement('BUTTON');
+            testScreen = new TestScreen();
+        });
 
         it('should throw a useful error when an HTML container element is not passed', function () {
             expect(KGame.bind(null, 'my-game', null, testScreen))
@@ -51,6 +56,10 @@ describe('Game', function () {
             expect(KGame.bind(null, 'new-game', containerElem, testScreen)).not.toThrow()
         });
 
+        it('should return the KGame instance when successfully created', function () {
+            expect(KGame('some-game', containerElem, testScreen) instanceof KGameInstance).toBe(true);
+        });
+
         describe('Getter functionality', function () {
 
             it('should return null when trying to lookup a non-existing game', function () {
@@ -61,10 +70,8 @@ describe('Game', function () {
 
                 var instance;
 
-                beforeAll(function () {
-                    KGame('real-game', containerElem, testScreen);
-                    instance = KGame('real-game');
-                });
+                beforeEach(() => instance = KGame('real-game', containerElem, testScreen));
+                afterEach(() => instance.destroy());
 
                 it('should have the correct name', function () {
                     expect(instance.name).toEqual('real-game');
@@ -93,6 +100,144 @@ describe('Game', function () {
             });
 
         });
+
+        describe('destroy', function () {
+
+            let game;
+
+            beforeEach(function () {
+                game = KGame('destroy-test', containerElem, testScreen);
+                spyOn(game._loopManager, '_stop');
+            });
+
+            it('should call _stop on the loopManager of the game', function () {
+                game.destroy();
+                expect(game._loopManager._stop).toHaveBeenCalled();
+            });
+
+            it('should remove its canvas element from the DOM', function () {
+                expect(containerElem.querySelector('canvas')).not.toBe(null);
+                game.destroy();
+                expect(containerElem.querySelector('canvas')).toBe(null);
+            });
+
+            it('should cause a lookup of the specified game to return null', function () {
+                expect(game).not.toBe(null);
+                game.destroy();
+                expect(KGame('destroy-test')).toBe(null);
+            });
+
+            it('should allow you to create an instance with the same name after destruction with default initialized values', function () {
+                game.destroy();
+                game = KGame('destroy-test', containerElem, testScreen);
+                expect(game._loopManager.paused === false);
+                expect(game._loopManager.stopped === false);
+                game.destroy();
+            });
+
+        });
+
+        describe('_loopManager', function () {
+
+            var game, rafControl, currentTime, rafSpy;
+
+            beforeEach(function () {
+                rafSpy = spyOn(window, 'requestAnimationFrame').and.callFake(function (loopCallback) {
+                    rafControl = {
+                        nextTick: (ms) => {
+                            if (ms !== undefined) currentTime += ms;
+                            loopCallback(currentTime)
+                        }
+                    }
+                });
+                currentTime = 0;
+                game = KGame('loop-test', containerElem, testScreen);
+                game._loopManager.MAX_FPS = 60;
+            });
+
+            afterEach(function () {
+                rafSpy.calls.reset();
+                game.destroy();
+                game = null;
+                rafControl = null;
+            });
+
+            it('should be defined', function () {
+                expect(game._loopManager).toBeDefined();
+            });
+
+            it('should have a defined loop method', function () {
+                expect(game._loopManager.loop).toBeDefined();
+            });
+
+            it('should NOT be paused on init', function () {
+                expect(game._loopManager.paused).toBe(false);
+            });
+
+            it('should NOT be stopped on init', function () {
+                expect(game._loopManager.stopped).toBe(false);
+            });
+
+            it('should set the lastFrameTimeMs every time the frame count exceeds MAX_FPS / 1000, calling requestAnimationFrame after each update', function () {
+
+                // Initialize at 0
+                expect(game._loopManager.lastFrameTimeMs).toEqual(0);
+                expect(requestAnimationFrame).toHaveBeenCalledTimes(1);
+                rafControl.nextTick(1);
+                //Remain at 0 as we have not exceeded MAX_FPS / 1000 ==> 16.666...
+                expect(game._loopManager.lastFrameTimeMs).toEqual(0);
+                expect(requestAnimationFrame).toHaveBeenCalledTimes(2);
+                rafControl.nextTick(15);
+                //Remain at 0 as we have not exceeded MAX_FPS / 1000 ==> 16.666...
+                expect(game._loopManager.lastFrameTimeMs).toEqual(0);
+                expect(requestAnimationFrame).toHaveBeenCalledTimes(3);
+                rafControl.nextTick(1);
+                //Update lastFrameTimeMs as we have passed 16.666
+                expect(game._loopManager.lastFrameTimeMs).toEqual(17);
+                expect(requestAnimationFrame).toHaveBeenCalledTimes(4);
+                rafControl.nextTick(1);
+                //Remain at 17 until we pass 33.333
+                expect(game._loopManager.lastFrameTimeMs).toEqual(17);
+                expect(requestAnimationFrame).toHaveBeenCalledTimes(5);
+                rafControl.nextTick(15);
+                //Remain at 17 until we pass 33.333
+                expect(game._loopManager.lastFrameTimeMs).toEqual(17);
+                expect(requestAnimationFrame).toHaveBeenCalledTimes(6);
+                rafControl.nextTick(1);
+                //Now we have surpassed 33.333, update
+                expect(game._loopManager.lastFrameTimeMs).toEqual(34);
+                expect(requestAnimationFrame).toHaveBeenCalledTimes(7);
+
+            });
+
+            it('should have a _togglePause method', function () {
+                expect(game._loopManager._togglePause).toBeDefined();
+            });
+
+            it('should NOT be paused by default', function () {
+                expect(game._loopManager.paused).toBe(false);
+            });
+
+            it('should toggle between paused states', function () {
+                expect(game._loopManager.paused).toBe(false);
+                game._loopManager._togglePause();
+                expect(game._loopManager.paused).toBe(true);
+                game._loopManager._togglePause();
+                expect(game._loopManager.paused).toBe(false);
+            });
+
+            it('should have a _stop method', function () {
+                expect(game._loopManager._stop).toBeDefined();
+            });
+
+            it('should stop the requestAnimationFrameLoop', function () {
+                expect(requestAnimationFrame).toHaveBeenCalledTimes(1);
+                game._loopManager._stop();
+                rafControl.nextTick(2000);
+                expect(requestAnimationFrame).toHaveBeenCalledTimes(1);
+            });
+
+        })
 
     });
 });
