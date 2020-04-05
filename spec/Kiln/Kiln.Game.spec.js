@@ -110,6 +110,10 @@ describe('Game', function () {
                 spyOn(game._loopManager, '_stop');
             });
 
+            afterEach(function () {
+                if(!game.destroyed) fail();
+            });
+
             it('should call _stop on the loopManager of the game', function () {
                 game.destroy();
                 expect(game._loopManager._stop).toHaveBeenCalled();
@@ -235,6 +239,13 @@ describe('Game', function () {
                 game._loopManager._stop();
                 rafControl.nextTick(2000);
                 expect(requestAnimationFrame).toHaveBeenCalledTimes(1);
+            });
+
+            it('should clean up the cached screenManager', function () {
+                game._screenManager.foo = 'bar';
+                game.destroy();
+                game = KGame('loop-test', containerElem, testScreen);
+                expect(game._screenManager.foo).toBeUndefined();
             });
 
         })
