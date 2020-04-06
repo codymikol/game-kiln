@@ -12,9 +12,10 @@ export default class ScreenManager {
         this.canvas = elem;
         this.ctx = elem.getContext('2d');
         this.set(initialScreen);
+        this.resize = this.resize.bind(this);
         Object.defineProperty(this, 'height', {get: () => this.canvas.height});
         Object.defineProperty(this, 'width', {get: () => this.canvas.width});
-        window.addEventListener('resize', this.resize.bind(this));
+        window.addEventListener('resize', this.resize);
         window.addEventListener('contextmenu', () => false);
         this.resize();
     }
@@ -66,6 +67,8 @@ export default class ScreenManager {
     }
 
     destroy() {
+        window.removeEventListener('resize', this.resize);
+        this.cleanup();
         delete instance[this.kiln];
     }
 
