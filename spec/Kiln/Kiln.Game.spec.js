@@ -107,7 +107,7 @@ describe('Game', function () {
 
             beforeEach(function () {
                 game = KGame('destroy-test', containerElem, testScreen);
-                spyOn(game._loopManager, '_stop');
+                spyOn(game._loopManager, '_stop').and.callThrough();
             });
 
             afterEach(function () {
@@ -136,6 +136,22 @@ describe('Game', function () {
                 game = KGame('destroy-test', containerElem, testScreen);
                 expect(game._loopManager.paused === false);
                 expect(game._loopManager.stopped === false);
+                game.destroy();
+            });
+
+            it('should not cache the loopManager after destroy', function () {
+                game._loopManager.cachedTest = true;
+                game.destroy();
+                game = KGame('destroy-test', containerElem, testScreen);
+                expect(game._loopManager.cachedTest).not.toBeDefined();
+                game.destroy();
+            });
+
+            it('should not cache the screenManager after destroy', function () {
+                game._screenManager.cachedTest = true;
+                game.destroy();
+                game = KGame('destroy-test', containerElem, testScreen);
+                expect(game._screenManager.cachedTest).not.toBeDefined();
                 game.destroy();
             });
 
