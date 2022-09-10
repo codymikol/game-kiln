@@ -211,10 +211,6 @@ describe('Input', function () {
             expect(mouseTwo.cached).toEqual('hello')
         });
 
-        describe('reset', function () {
-
-        });
-
         describe('x', function () {
             it('should return the current value of x', function () {
                 expect(mouse.x()).toEqual(0);

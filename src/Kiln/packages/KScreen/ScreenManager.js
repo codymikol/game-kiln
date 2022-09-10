@@ -18,6 +18,9 @@ export default class ScreenManager {
         window.addEventListener('resize', this.resize);
         window.addEventListener('contextmenu', () => false);
         this.resize();
+
+        setInterval(() => console.log(Object.keys(this.activeScreen.entities).length), 2000)
+
     }
 
     getCtx() {
