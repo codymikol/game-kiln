@@ -50,9 +50,3 @@ describe('Screen', function () {
     });
 
 });
-
-describe('ScreenManager', function () {
-
-
-
-});
