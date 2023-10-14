@@ -1,47 +1,47 @@
-import ScreenManager from "../KScreen/ScreenManager";
-
-let instanceMap = {};
-
-export default class DrawUtil {
-
-    //TODO: Find a way that you don't have to specify a kiln to get a Draw Object :/
-    constructor(kiln) {
-        if(instanceMap[kiln]) return instanceMap[kiln];
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var ScreenManager_1 = require("../KScreen/ScreenManager");
+var instanceMap = {};
+var DrawUtil = /** @class */ (function () {
+    function DrawUtil(kiln) {
+        if (instanceMap[kiln])
+            return instanceMap[kiln];
         instanceMap[kiln] = this;
-        this._screenManager = new ScreenManager(kiln);
+        this._screenManager = new ScreenManager_1.default(kiln);
         this.ctx = this._screenManager.ctx;
     }
-
-    getCtx(){
+    DrawUtil.prototype.getCtx = function () {
         return this.ctx;
-    }
-
-    resetCTX() {
+    };
+    DrawUtil.prototype.resetCTX = function () {
         this.ctx.globalAlpha = 1;
         this.ctx.font = '30px Arial Black';
         this.ctx.textAlign = 'start';
         this.ctx.fillStyle = 'black';
-    }
-
-    square(x, y, width, height, color = 'red', alpha = 1) {
+    };
+    DrawUtil.prototype.square = function (x, y, width, height, color, alpha) {
+        if (color === void 0) { color = 'red'; }
+        if (alpha === void 0) { alpha = 1; }
         this.ctx.globalAlpha = alpha;
         this.ctx.fillStyle = color;
         this.ctx.fillRect(x, y, width, height);
         this.resetCTX();
-    }
-
-    text(text, x, y, color = '#208C30', fontSize = 30, alpha = 1, align = 'start')  {
+    };
+    DrawUtil.prototype.text = function (text, x, y, color, fontSize, alpha, align) {
+        if (color === void 0) { color = '#208C30'; }
+        if (fontSize === void 0) { fontSize = 30; }
+        if (alpha === void 0) { alpha = 1; }
+        if (align === void 0) { align = 'start'; }
         this.ctx.globalAlpha = 0.6;
         this.ctx.font = fontSize + 'px Arial Black';
         this.ctx.fillStyle = color;
         this.ctx.textAlign = align;
         this.ctx.fillText(text, x, y);
         this.resetCTX();
-    }
-
-    image(img, x, y, h, w) {
-        this.ctx.drawImage(img, x, y, w, h)
-    }
-
-}
-
+    };
+    DrawUtil.prototype.image = function (img, x, y, h, w) {
+        this.ctx.drawImage(img, x, y, w, h);
+    };
+    return DrawUtil;
+}());
+exports.default = DrawUtil;

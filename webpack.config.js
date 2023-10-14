@@ -6,7 +6,7 @@ module.exports = {
     devtool: 'eval-source-map',
     context: path.resolve(__dirname, './src'),
     entry: {
-        Kiln: './index.js',
+        Kiln: './index.ts',
     },
     output: {
         library: 'Kiln',

@@ -1,11 +1,12 @@
-import each from "lodash/each"
-
-let instance = {};
-
-export default class ScreenManager {
-
-    constructor(kiln, elem, initialScreen) {
-        if (instance[kiln]) return instance[kiln];
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var each_1 = require("lodash/each");
+var instance = {};
+var ScreenManager = /** @class */ (function () {
+    function ScreenManager(kiln, elem, initialScreen) {
+        var _this = this;
+        if (instance[kiln])
+            return instance[kiln];
         instance[kiln] = this;
         this.initialized = false;
         this.kiln = kiln;
@@ -13,66 +14,60 @@ export default class ScreenManager {
         this.ctx = elem.getContext('2d');
         this.set(initialScreen);
         this.resize = this.resize.bind(this);
-        Object.defineProperty(this, 'height', {get: () => this.canvas.height});
-        Object.defineProperty(this, 'width', {get: () => this.canvas.width});
+        Object.defineProperty(this, 'height', { get: function () { return _this.canvas.height; } });
+        Object.defineProperty(this, 'width', { get: function () { return _this.canvas.width; } });
         window.addEventListener('resize', this.resize);
-        window.addEventListener('contextmenu', () => false);
+        window.addEventListener('contextmenu', function () { return false; });
         this.resize();
-
-        setInterval(() => console.log(Object.keys(this.activeScreen.entities).length), 2000)
-
     }
-
-    getCtx() {
+    ScreenManager.prototype.getCtx = function () {
         return this.ctx;
-    }
-
-    getCanvas() {
+    };
+    ScreenManager.prototype.getCanvas = function () {
         return this.canvas;
-    }
-
-    getRect() {
+    };
+    ScreenManager.prototype.getRect = function () {
         return this.getCanvas().getBoundingClientRect();
-    }
-
-    resize() {
-        this.canvas.width = this.canvas.parentNode.offsetWidth;
-        this.canvas.height = this.canvas.parentNode.offsetHeight;
-        each(this.activeScreen.entities, (e) => e.onResize());
-    }
-
-    tick(delta) {
-        each(this.activeScreen.entities, (e) => e.onTick(delta));
-    }
-
-    render() {
-        each(this.activeScreen.entities, (e) => e.onRender());
-    }
-
-    set(screenInstance) {
+    };
+    ScreenManager.prototype.resize = function () {
+        var parent = this.canvas.parentNode;
+        if (parent instanceof HTMLElement) {
+            this.canvas.width = parent.offsetWidth;
+            this.canvas.height = parent.offsetHeight;
+        }
+        else {
+            console.error("Error handling resize event, canvas parent is not of type HtmlElement", parent);
+        }
+        (0, each_1.default)(this.activeScreen.entities, function (e) { return e.onResize(); });
+    };
+    ScreenManager.prototype.tick = function (delta) {
+        (0, each_1.default)(this.activeScreen.entities, function (e) { return e.onTick(delta); });
+    };
+    ScreenManager.prototype.render = function () {
+        (0, each_1.default)(this.activeScreen.entities, function (e) { return e.onRender(); });
+    };
+    ScreenManager.prototype.set = function (screenInstance) {
         this.cleanup();
         this.bootstrap(screenInstance);
-    }
-
-    bootstrap(screenInstance) {
+    };
+    ScreenManager.prototype.bootstrap = function (screenInstance) {
         this.activeScreen = screenInstance;
         this.activeScreen.setKiln(this.kiln);
         this.activeScreen.onCreate();
         this.initialized = true;
-    }
-
-    cleanup() {
-        if(this.initialized) {
-            each(this.activeScreen.entities, (entity) => entity.destroy());
+    };
+    ScreenManager.prototype.cleanup = function () {
+        if (this.initialized) {
+            (0, each_1.default)(this.activeScreen.entities, function (entity) { return entity.destroy(); });
             this.activeScreen.onDestroy();
             delete this.activeScreen;
         }
-    }
-
-    destroy() {
+    };
+    ScreenManager.prototype.destroy = function () {
         window.removeEventListener('resize', this.resize);
         this.cleanup();
         delete instance[this.kiln];
-    }
-
-}
+    };
+    return ScreenManager;
+}());
+exports.default = ScreenManager;
