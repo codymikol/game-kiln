@@ -1,7 +1,7 @@
 import ScreenManager from "../KScreen/ScreenManager";
 import EntityManager from "./EntityManager";
-import noop from "lodash/noop"
 import {KScreen} from "../../../index";
+import {noop} from "../KUtils/KUtils";
 
 export default class KEntity {
 
