@@ -1,6 +1,6 @@
-import each from "lodash/each"
 import KScreen from "./KScreen";
 import KEntity from "../KEntity/KEntity";
+import {each} from "../KUtils/KUtils";
 
 let instance = {};
 
