@@ -9,7 +9,7 @@ module.exports = {
     },
     context: path.resolve(__dirname, './src'),
     entry: {
-        Kiln: './index.js',
+        Kiln: './index.ts',
     },
     plugins: [
         new CompressionPlugin()
